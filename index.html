@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yuri's Cafe Reviews | Indie Guide</title>
+    <title>The Aftertaste | Indie Cafe Guide</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -79,8 +79,8 @@
                     <i class="fas fa-mug-hot text-xl"></i>
                 </div>
                 <div class="flex flex-col">
-                    <h1 class="text-2xl font-bold text-amber-900 leading-none">Yuri's Cafe Reviews</h1>
-                    <span class="text-[10px] font-bold uppercase tracking-widest text-amber-600 mt-1">My Curated Indie Coffee Guide</span>
+                    <h1 class="text-2xl font-bold text-amber-900 leading-none">The Aftertaste</h1>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-amber-600 mt-1">Curated Indie Coffee Reviews</span>
                 </div>
             </div>
             
@@ -151,7 +151,7 @@
 
                     <div class="bg-amber-50 rounded-xl p-5 border border-amber-100">
                         <div class="flex justify-between items-center mb-3">
-                            <h3 class="font-bold text-amber-900">Add to Yuri's Guide</h3>
+                            <h3 class="font-bold text-amber-900">Add to The Aftertaste</h3>
                             <div id="starInput" class="flex gap-1 text-amber-400 cursor-pointer">
                                 <i class="fas fa-star" data-val="1"></i>
                                 <i class="fas fa-star" data-val="2"></i>
@@ -219,43 +219,57 @@
         let currentCafeId = null;
         let selectedUserRating = 5;
 
+        // Exponential backoff for auth
+        const signInWithRetry = async (retries = 5, delay = 1000) => {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                    return; // Success
+                } catch (error) {
+                    if (i === retries - 1) throw error;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2;
+                }
+            }
+        };
+
         // Initialize App
         const init = async () => {
             const authStatusEl = document.getElementById('authStatus');
             
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (error) {
-                authStatusEl.innerText = "Connection failed. Check your internet.";
-            }
+            // Render initial UI immediately
+            renderCafes();
+            setupSearch();
+            setupStars();
 
             onAuthStateChanged(auth, (user) => {
                 currentUser = user;
                 if (user) {
-                    authStatusEl.innerHTML = `<i class="fas fa-circle text-green-500 text-[8px] mr-2"></i> Live Community Feed Active`;
+                    authStatusEl.innerHTML = `<i class="fas fa-circle text-green-500 text-[8px] mr-2"></i> Live Feed Active`;
                     startListeningForReviews();
                 }
             });
 
-            renderCafes();
-            setupSearch();
-            setupStars();
+            try {
+                await signInWithRetry();
+            } catch (error) {
+                authStatusEl.innerText = "Connection lost. Try refreshing.";
+                console.error("Auth error:", error);
+            }
         };
 
         // Real-time listener for reviews
         const startListeningForReviews = () => {
-            // Rule 1: Correct Firestore Path
             const reviewsRef = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
             
-            // Rule 2: Simple Query (get all, filter locally)
             onSnapshot(reviewsRef, (snapshot) => {
                 allCloudReviews = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                renderCafes(); // Update cards with new average ratings
-                if (currentCafeId) updateModalReviews(); // Update open modal
+                renderCafes();
+                if (currentCafeId) updateModalReviews();
             }, (err) => {
                 console.error("Firestore error:", err);
             });
@@ -372,7 +386,7 @@
                 .sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
             
             if (cafeReviews.length === 0) {
-                reviewsContainer.innerHTML = `<p class="text-sm text-gray-400 italic">No community reviews yet. Be the first!</p>`;
+                reviewsContainer.innerHTML = `<p class="text-sm text-gray-400 italic">No community feedback yet. Be the first!</p>`;
                 return;
             }
 
@@ -426,9 +440,8 @@
         };
 
         window.submitReview = async () => {
-            // Rule 3: Auth before queries
             if (!currentUser) {
-                window.alertBox("Connecting to Yuri's cloud...");
+                window.alertBox("Wait for cloud connection...");
                 return;
             }
 
@@ -452,10 +465,10 @@
                     timestamp: serverTimestamp()
                 });
 
-                window.alertBox("Review added to Yuri's cloud guide!");
+                window.alertBox("Review shared on The Aftertaste!");
                 document.getElementById('reviewText').value = '';
             } catch (error) {
-                window.alertBox("Failed to post. Try again later.");
+                window.alertBox("Failed to post. Check connection.");
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerText = "Post to Feed";
