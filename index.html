@@ -175,8 +175,16 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Firebase Configuration
-        const firebaseConfig = JSON.parse(__firebase_config);
+        // Updated Firebase Configuration as requested
+        const firebaseConfig = {
+            apiKey: "AIzaSyBJhEWSJ8Tz2DBwychFeQVlhXCYD1D8YLY",
+            authDomain: "ojt-pulse-tracker-backen-160ad.firebaseapp.com",
+            projectId: "ojt-pulse-tracker-backen-160ad",
+            storageBucket: "ojt-pulse-tracker-backen-160ad.firebasestorage.app",
+            messagingSenderId: "859757491435",
+            appId: "1:859757491435:web:0737b9c1f9380628b03aae"
+        };
+
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
@@ -219,16 +227,27 @@
         let currentCafeId = null;
         let selectedUserRating = 5;
 
-        // Exponential backoff for auth
+        // Exponential backoff for auth with fallback for token mismatch
         const signInWithRetry = async (retries = 5, delay = 1000) => {
             for (let i = 0; i < retries; i++) {
                 try {
+                    // Try using the system token first
                     if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        await signInWithCustomToken(auth, __initial_auth_token);
+                        try {
+                            await signInWithCustomToken(auth, __initial_auth_token);
+                            return; // Success
+                        } catch (tokenErr) {
+                            // If the token doesn't match the project (common with custom configs), fall back to anonymous immediately
+                            if (tokenErr.code === 'auth/custom-token-mismatch' || tokenErr.code === 'auth/invalid-custom-token') {
+                                await signInAnonymously(auth);
+                                return; // Success via fallback
+                            }
+                            throw tokenErr; // Re-throw other errors for retry loop
+                        }
                     } else {
                         await signInAnonymously(auth);
+                        return; // Success
                     }
-                    return; // Success
                 } catch (error) {
                     if (i === retries - 1) throw error;
                     await new Promise(resolve => setTimeout(resolve, delay));
@@ -264,6 +283,7 @@
 
         // Real-time listener for reviews
         const startListeningForReviews = () => {
+            // Rule 1: Always use the specified artifact path
             const reviewsRef = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
             
             onSnapshot(reviewsRef, (snapshot) => {
@@ -344,10 +364,10 @@
             currentFilter = city;
             document.querySelectorAll('.city-filter').forEach(btn => {
                 btn.classList.remove('bg-amber-800', 'text-white');
-                btn.classList.add('bg-gray-100', 'text-gray-600');
+                btn.classList.add('bg-gray-100', text-gray-600);
                 if (btn.innerText === city) {
                     btn.classList.add('bg-amber-800', 'text-white');
-                    btn.classList.remove('bg-gray-100', 'text-gray-600');
+                    btn.classList.remove('bg-gray-100', text-gray-600);
                 }
             });
             window.renderCafes(document.getElementById('searchInput').value);
@@ -395,7 +415,7 @@
                 rDiv.className = 'bg-gray-50 p-4 rounded-xl border border-gray-100';
                 rDiv.innerHTML = `
                     <div class="flex justify-between items-center mb-1">
-                        <span class="font-bold text-amber-950 text-xs">${rev.user.substring(0, 8)}...</span>
+                        <span class="font-bold text-amber-950 text-xs">${rev.user ? rev.user.substring(0, 8) : 'Anon'}...</span>
                         <div class="text-[10px] text-amber-500 flex gap-0.5">
                             ${Array(5).fill(0).map((_, i) => `<i class="${i < rev.rating ? 'fas' : 'far'} fa-star"></i>`).join('')}
                         </div>
@@ -456,6 +476,7 @@
             submitBtn.innerText = "Posting...";
 
             try {
+                // Rule 1: Correct Artifact Path
                 const reviewsRef = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
                 await addDoc(reviewsRef, {
                     cafeId: currentCafeId,
@@ -469,6 +490,7 @@
                 document.getElementById('reviewText').value = '';
             } catch (error) {
                 window.alertBox("Failed to post. Check connection.");
+                console.error("Submission error:", error);
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerText = "Post to Feed";
