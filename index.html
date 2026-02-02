@@ -51,6 +51,20 @@
             to { opacity: 1; }
         }
 
+        .map-container-hero {
+            position: relative;
+            padding-bottom: 75%; /* Increased from 56.25% to make it larger */
+            height: 0;
+            overflow: hidden;
+        }
+        .map-container-hero iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
         .img-container {
             position: relative;
             height: 14rem;
@@ -232,7 +246,7 @@
                 address: "Zone 1, Lot 18-B, Block 62 Floraville, Rizal, Taguig, 1208 Metro Manila",
                 image: "https://lh3.googleusercontent.com/p/AF1QipMttnYza4nqcTgHgRUHsT9VqKr7TrbcC6EDHscW=s680-w680-h510-rw",
                 specialty: "Cozy Coffee",
-                baseRating: 5
+                baseRating: 4.9
             },
             {
                 id: 2,
@@ -241,7 +255,7 @@
                 address: "70 G. Marcelo, Valenzuela, 1440 Metro Manila",
                 image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnzX7dAaRA5JkWIsYUFQ8HKMbut0fEPMJQ6g&s",
                 specialty: "Cold Brew",
-                baseRating: 4
+                baseRating: 4.1
             },        
             {
                 id: 3,
@@ -250,7 +264,7 @@
                 address: "MX35+FRG, Pampano St, Longos, Manila, Metro Manila",
                 image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpI3AEZDBk84sMbzM47iyj-K6IrSnZZiodmQ&s",
                 specialty: "Classic Latte",
-                baseRating: 4
+                baseRating: 4.8
             }
         ];
 
