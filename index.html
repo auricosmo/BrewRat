@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yuri's Cafe Reviews | Indie Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fdfaf7;
+        }
+
+        .cafe-card:hover {
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .cafe-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 10px;
+        }
+
+        .modal-enter {
+            animation: fadeIn 0.2s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .map-container-hero {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+        }
+        .map-container-hero iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .img-container {
+            position: relative;
+            height: 14rem;
+            width: 100%;
+            overflow: hidden;
+            background-color: #e5e7eb;
+        }
+        
+        .img-container img {
+            transition: transform 0.5s ease;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white border-b sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <div class="bg-amber-800 text-white p-2 rounded-lg">
+                    <i class="fas fa-mug-hot text-xl"></i>
+                </div>
+                <div class="flex flex-col">
+                    <h1 class="text-2xl font-bold text-amber-900 leading-none">Yuri's Cafe Reviews</h1>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-amber-600 mt-1">My Curated Indie Coffee Guide</span>
+                </div>
+            </div>
+            
+            <div class="flex flex-1 max-w-xl w-full relative">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                <input type="text" id="searchInput" placeholder="Search my favorite spots..." 
+                    class="w-full pl-11 pr-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 bg-gray-50">
+            </div>
+
+            <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
+                <button onclick="filterCity('All')" class="city-filter px-4 py-1.5 rounded-full text-sm font-medium bg-amber-800 text-white transition">All</button>
+                <button onclick="filterCity('Taguig')" class="city-filter px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition">Taguig</button>
+                <button onclick="filterCity('Valenzuela')" class="city-filter px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition">Valenzuela</button>
+                <button onclick="filterCity('Manila')" class="city-filter px-4 py-1.5 rounded-full text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition">Manila</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+                <h2 class="text-3xl font-bold text-amber-950">Specialty & Indie Spots</h2>
+                <p class="text-gray-500">A collection of independent cafes I've visited across the metro.</p>
+            </div>
+            <div id="authStatus" class="text-xs text-amber-600 font-bold bg-amber-50 px-4 py-2 rounded-lg border border-amber-100 italic">
+                Connecting to cloud...
+            </div>
+        </div>
+
+        <div id="cafeGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Cards populated by JS -->
+        </div>
+
+        <div id="noResults" class="hidden text-center py-20">
+            <i class="fas fa-coffee text-5xl text-gray-300 mb-4"></i>
+            <p class="text-xl text-gray-500">I haven't reviewed a cafe matching that search yet.</p>
+        </div>
+    </main>
+
+    <!-- Review Modal -->
+    <div id="reviewModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-[100] p-4 modal-enter">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col shadow-2xl">
+            <div class="p-6 border-b flex justify-between items-start">
+                <div>
+                    <h2 id="modalTitle" class="text-2xl font-bold text-amber-900">Cafe Name</h2>
+                    <p id="modalLocation" class="text-gray-500 text-sm flex items-center gap-1">
+                        <i class="fas fa-location-dot"></i> <span>Location</span>
+                    </p>
+                </div>
+                <button onclick="closeModal()" class="p-2 hover:bg-gray-100 rounded-full transition">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="overflow-y-auto custom-scrollbar flex-1">
+                <div class="map-container-hero bg-gray-100">
+                    <iframe id="modalMap" frameborder="0" style="border:0" allowfullscreen loading="lazy"></iframe>
+                </div>
+
+                <div class="p-6">
+                    <div class="mb-8">
+                        <h3 class="font-bold text-lg mb-4">Community Feedback</h3>
+                        <div id="modalReviews" class="space-y-4">
+                            <!-- Reviews populated from Firestore -->
+                        </div>
+                    </div>
+
+                    <div class="bg-amber-50 rounded-xl p-5 border border-amber-100">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="font-bold text-amber-900">Add to Yuri's Guide</h3>
+                            <div id="starInput" class="flex gap-1 text-amber-400 cursor-pointer">
+                                <i class="fas fa-star" data-val="1"></i>
+                                <i class="fas fa-star" data-val="2"></i>
+                                <i class="fas fa-star" data-val="3"></i>
+                                <i class="fas fa-star" data-val="4"></i>
+                                <i class="fas fa-star" data-val="5"></i>
+                            </div>
+                        </div>
+                        <textarea id="reviewText" placeholder="How was your visit?" 
+                            class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 mb-3 bg-white h-24"></textarea>
+                        <button id="submitBtn" onclick="submitReview()" class="w-full bg-amber-800 text-white py-2.5 rounded-lg font-bold hover:bg-amber-900 transition shadow-sm disabled:opacity-50">Post to Feed</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Firebase Configuration
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        // Global State
+        let currentUser = null;
+        let allCloudReviews = [];
+        const cafes = [
+            {
+                id: 1,
+                name: "Cozy Coffles Cafe",
+                city: "Taguig",
+                address: "Zone 1, Lot 18-B, Block 62 Floraville, Rizal, Taguig, 1208 Metro Manila",
+                image: "https://lh3.googleusercontent.com/p/AF1QipMttnYza4nqcTgHgRUHsT9VqKr7TrbcC6EDHscW=s680-w680-h510-rw",
+                specialty: "Cozy Coffee",
+                baseRating: 5
+            },
+            {
+                id: 2,
+                name: "VARDI Café",
+                city: "Valenzuela",
+                address: "70 G. Marcelo, Valenzuela, 1440 Metro Manila",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnzX7dAaRA5JkWIsYUFQ8HKMbut0fEPMJQ6g&s",
+                specialty: "Cold Brew",
+                baseRating: 4
+            },        
+            {
+                id: 3,
+                name: "Kape Kalinaw",
+                city: "Manila",
+                address: "MX35+FRG, Pampano St, Longos, Manila, Metro Manila",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpI3AEZDBk84sMbzM47iyj-K6IrSnZZiodmQ&s",
+                specialty: "Classic Latte",
+                baseRating: 4
+            }
+        ];
+
+        let currentFilter = 'All';
+        let currentCafeId = null;
+        let selectedUserRating = 5;
+
+        // Initialize App
+        const init = async () => {
+            const authStatusEl = document.getElementById('authStatus');
+            
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                authStatusEl.innerText = "Connection failed. Check your internet.";
+            }
+
+            onAuthStateChanged(auth, (user) => {
+                currentUser = user;
+                if (user) {
+                    authStatusEl.innerHTML = `<i class="fas fa-circle text-green-500 text-[8px] mr-2"></i> Live Community Feed Active`;
+                    startListeningForReviews();
+                }
+            });
+
+            renderCafes();
+            setupSearch();
+            setupStars();
+        };
+
+        // Real-time listener for reviews
+        const startListeningForReviews = () => {
+            // Rule 1: Correct Firestore Path
+            const reviewsRef = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
+            
+            // Rule 2: Simple Query (get all, filter locally)
+            onSnapshot(reviewsRef, (snapshot) => {
+                allCloudReviews = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderCafes(); // Update cards with new average ratings
+                if (currentCafeId) updateModalReviews(); // Update open modal
+            }, (err) => {
+                console.error("Firestore error:", err);
+            });
+        };
+
+        const getMapUrl = (name, address) => {
+            const query = encodeURIComponent(`${name} ${address}`);
+            return `https://maps.google.com/maps?q=${query}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
+        };
+
+        const calculateRating = (cafeId, baseRating) => {
+            const cafeReviews = allCloudReviews.filter(r => r.cafeId === cafeId);
+            if (cafeReviews.length === 0) return baseRating.toFixed(1);
+            const sum = cafeReviews.reduce((acc, curr) => acc + curr.rating, 0);
+            return (sum / cafeReviews.length).toFixed(1);
+        };
+
+        window.renderCafes = (filterText = '') => {
+            const grid = document.getElementById('cafeGrid');
+            const noRes = document.getElementById('noResults');
+            
+            const filtered = cafes.filter(c => {
+                const matchesCity = currentFilter === 'All' || c.city === currentFilter;
+                const matchesSearch = c.name.toLowerCase().includes(filterText.toLowerCase()) || 
+                                     c.city.toLowerCase().includes(filterText.toLowerCase());
+                return matchesCity && matchesSearch;
+            });
+
+            grid.innerHTML = '';
+            
+            if (filtered.length === 0) {
+                noRes.classList.remove('hidden');
+            } else {
+                noRes.classList.add('hidden');
+                filtered.forEach(cafe => {
+                    const rating = calculateRating(cafe.id, cafe.baseRating);
+                    const card = document.createElement('div');
+                    card.className = 'cafe-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 cursor-pointer flex flex-col group';
+                    card.onclick = () => window.openModal(cafe.id);
+                    
+                    card.innerHTML = `
+                        <div class="img-container">
+                            <img src="${cafe.image}" alt="${cafe.name}" class="w-full h-full object-cover">
+                            <div class="absolute top-3 left-3 z-20 bg-amber-900/80 text-white px-3 py-1 rounded-full text-[10px] font-bold shadow-sm backdrop-blur-md">
+                                ${cafe.city}
+                            </div>
+                        </div>
+                        <div class="p-4 flex flex-col flex-1">
+                            <div class="flex justify-between items-start mb-1">
+                                <h3 class="font-bold text-lg text-amber-950 group-hover:text-amber-800 transition-colors">${cafe.name}</h3>
+                                <div class="flex items-center gap-1 text-sm font-bold text-amber-600">
+                                    <i class="fas fa-star text-amber-400"></i> ${rating}
+                                </div>
+                            </div>
+                            <p class="text-gray-500 text-sm mb-3 line-clamp-1">
+                                <i class="fas fa-location-dot mr-1 text-amber-600/40"></i> ${cafe.address}
+                            </p>
+                            <div class="mt-auto pt-3 border-t flex justify-between items-center">
+                                <span class="text-[11px] bg-amber-50 text-amber-900 px-2.5 py-1 rounded-full font-bold border border-amber-100 uppercase tracking-tight">Try: ${cafe.specialty}</span>
+                                <span class="text-amber-800 text-sm font-semibold flex items-center gap-1">
+                                    Details <i class="fas fa-arrow-right text-[10px]"></i>
+                                </span>
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+        };
+
+        window.filterCity = (city) => {
+            currentFilter = city;
+            document.querySelectorAll('.city-filter').forEach(btn => {
+                btn.classList.remove('bg-amber-800', 'text-white');
+                btn.classList.add('bg-gray-100', 'text-gray-600');
+                if (btn.innerText === city) {
+                    btn.classList.add('bg-amber-800', 'text-white');
+                    btn.classList.remove('bg-gray-100', 'text-gray-600');
+                }
+            });
+            window.renderCafes(document.getElementById('searchInput').value);
+        };
+
+        const setupSearch = () => {
+            const input = document.getElementById('searchInput');
+            input.addEventListener('input', (e) => {
+                window.renderCafes(e.target.value);
+            });
+        };
+
+        window.openModal = (id) => {
+            currentCafeId = id;
+            const cafe = cafes.find(c => c.id === id);
+            document.getElementById('modalTitle').innerText = cafe.name;
+            document.getElementById('modalLocation').querySelector('span').innerText = cafe.address;
+            
+            const mapIframe = document.getElementById('modalMap');
+            mapIframe.src = getMapUrl(cafe.name, cafe.address);
+
+            updateModalReviews();
+
+            document.getElementById('reviewModal').classList.remove('hidden');
+            document.getElementById('reviewModal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+            window.updateStarUI(5);
+        };
+
+        const updateModalReviews = () => {
+            const reviewsContainer = document.getElementById('modalReviews');
+            reviewsContainer.innerHTML = '';
+            
+            const cafeReviews = allCloudReviews
+                .filter(r => r.cafeId === currentCafeId)
+                .sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+            
+            if (cafeReviews.length === 0) {
+                reviewsContainer.innerHTML = `<p class="text-sm text-gray-400 italic">No community reviews yet. Be the first!</p>`;
+                return;
+            }
+
+            cafeReviews.forEach(rev => {
+                const rDiv = document.createElement('div');
+                rDiv.className = 'bg-gray-50 p-4 rounded-xl border border-gray-100';
+                rDiv.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="font-bold text-amber-950 text-xs">${rev.user.substring(0, 8)}...</span>
+                        <div class="text-[10px] text-amber-500 flex gap-0.5">
+                            ${Array(5).fill(0).map((_, i) => `<i class="${i < rev.rating ? 'fas' : 'far'} fa-star"></i>`).join('')}
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm italic">"${rev.text}"</p>
+                `;
+                reviewsContainer.appendChild(rDiv);
+            });
+        };
+
+        window.closeModal = () => {
+            document.getElementById('reviewModal').classList.add('hidden');
+            document.getElementById('reviewModal').classList.remove('flex');
+            document.body.style.overflow = 'auto';
+            document.getElementById('reviewText').value = '';
+            document.getElementById('modalMap').src = '';
+            currentCafeId = null;
+        };
+
+        const setupStars = () => {
+            const stars = document.querySelectorAll('#starInput i');
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    const val = parseInt(star.getAttribute('data-val'));
+                    window.updateStarUI(val);
+                });
+            });
+        };
+
+        window.updateStarUI = (val) => {
+            const stars = document.querySelectorAll('#starInput i');
+            stars.forEach((s, i) => {
+                if (i < val) {
+                    s.classList.add('fas');
+                    s.classList.remove('far');
+                } else {
+                    s.classList.add('far');
+                    s.classList.remove('fas');
+                }
+            });
+            selectedUserRating = val;
+        };
+
+        window.submitReview = async () => {
+            // Rule 3: Auth before queries
+            if (!currentUser) {
+                window.alertBox("Connecting to Yuri's cloud...");
+                return;
+            }
+
+            const text = document.getElementById('reviewText').value.trim();
+            if (!text) {
+                window.alertBox("Please leave a note about your visit!");
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Posting...";
+
+            try {
+                const reviewsRef = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
+                await addDoc(reviewsRef, {
+                    cafeId: currentCafeId,
+                    rating: selectedUserRating,
+                    text: text,
+                    user: currentUser.uid,
+                    timestamp: serverTimestamp()
+                });
+
+                window.alertBox("Review added to Yuri's cloud guide!");
+                document.getElementById('reviewText').value = '';
+            } catch (error) {
+                window.alertBox("Failed to post. Try again later.");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Post to Feed";
+            }
+        };
+
+        window.alertBox = (msg) => {
+            const box = document.createElement('div');
+            box.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 bg-amber-950 text-white px-6 py-3 rounded-full shadow-2xl z-[200] transition-opacity font-medium text-sm';
+            box.innerText = msg;
+            document.body.appendChild(box);
+            setTimeout(() => {
+                box.style.opacity = '0';
+                setTimeout(() => box.remove(), 500);
+            }, 3000);
+        };
+
+        init();
+    </script>
+</body>
+</html>
