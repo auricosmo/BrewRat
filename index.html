@@ -13,8 +13,8 @@
         
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #2b2521; /* Dark roast bean */
-            color: #e8d5c4; /* Cream/Foam color */
+            background-color: #2b2521; 
+            color: #e8d5c4; 
         }
 
         .cafe-card {
@@ -53,7 +53,7 @@
 
         .map-container-hero {
             position: relative;
-            padding-bottom: 75%; /* Increased from 56.25% to make it larger */
+            padding-bottom: 75%; 
             height: 0;
             overflow: hidden;
         }
@@ -77,14 +77,6 @@
             transition: transform 0.5s ease;
         }
 
-        .btn-primary {
-            background-color: #a67c52;
-            color: #fff;
-        }
-        .btn-primary:hover {
-            background-color: #8c6641;
-        }
-
         .rat-logo-svg {
             filter: drop-shadow(0 0 8px rgba(166, 124, 82, 0.3));
         }
@@ -96,21 +88,14 @@
     <header class="bg-[#1a1614]/80 backdrop-blur-md border-b border-[#4a4036] sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-3">
-                <!-- Custom SVG Logo: Rat Holding a Cup -->
                 <div class="bg-amber-900/40 p-2 rounded-xl border border-amber-800/50">
                     <svg width="45" height="45" viewBox="0 0 100 100" class="rat-logo-svg" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Rat Body -->
                         <path d="M75,70 Q90,70 85,55 Q80,45 65,40 Q50,35 40,45 Q30,55 35,70 L75,70" fill="#a67c52" />
-                        <!-- Tail -->
                         <path d="M75,70 Q95,75 90,60" fill="none" stroke="#8c6641" stroke-width="3" />
-                        <!-- Ear -->
                         <circle cx="45" cy="40" r="8" fill="#8c6641" />
-                        <!-- Eye -->
                         <circle cx="42" cy="48" r="2" fill="#1a1614" />
-                        <!-- Coffee Cup -->
                         <rect x="20" y="55" width="20" height="18" rx="2" fill="#e8d5c4" />
                         <path d="M40,58 Q45,58 45,63 Q45,68 40,68" fill="none" stroke="#e8d5c4" stroke-width="2" />
-                        <!-- Steam -->
                         <path d="M25,50 Q28,45 25,40" fill="none" stroke="#e8d5c4" stroke-width="1.5" opacity="0.6" />
                         <path d="M32,50 Q35,45 32,40" fill="none" stroke="#e8d5c4" stroke-width="1.5" opacity="0.6" />
                     </svg>
@@ -128,7 +113,7 @@
             </div>
 
             <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
-                <button onclick="filterCity('All')" class="city-filter px-5 py-2 rounded-full text-xs font-black uppercase tracking-wider bg-amber-700 text-white transition-all shadow-lg shadow-amber-950/20">All</button>
+                <button onclick="filterCity('All')" class="city-filter px-5 py-2 rounded-full text-xs font-black uppercase tracking-wider bg-amber-700 text-white transition-all">All</button>
                 <button onclick="filterCity('Taguig')" class="city-filter px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-[#3d342d] text-amber-100/60 hover:bg-[#4a4036] transition-all">Taguig</button>
                 <button onclick="filterCity('Valenzuela')" class="city-filter px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-[#3d342d] text-amber-100/60 hover:bg-[#4a4036] transition-all">Valenzuela</button>
                 <button onclick="filterCity('Manila')" class="city-filter px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-[#3d342d] text-amber-100/60 hover:bg-[#4a4036] transition-all">Manila</button>
@@ -136,29 +121,26 @@
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 py-8">
         <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
                 <h2 class="text-4xl font-black text-[#fef3c7] tracking-tight mb-2">The Nest</h2>
-                <p class="text-amber-200/50 max-w-md leading-relaxed">I scavenge the streets of the metro so you don't have to. Here's the stash of indie coffee spots I've found.</p>
+                <p class="text-amber-200/50 max-w-md leading-relaxed">I scavenge the streets of the metro so you don't have to.</p>
             </div>
             <div id="authStatus" class="text-[10px] font-black uppercase tracking-widest text-amber-500 bg-amber-950/40 px-5 py-3 rounded-2xl border border-amber-900/50 italic flex items-center">
-                <span class="relative flex h-2 w-2 mr-3">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
-                </span>
                 Establishing Link...
             </div>
         </div>
 
         <div id="cafeGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            <!-- Cards populated by JS -->
+            <div class="col-span-full text-center py-20 animate-pulse">
+                <p class="text-amber-900/50 font-black uppercase text-xs tracking-widest">Searching the streets...</p>
+            </div>
         </div>
 
         <div id="noResults" class="hidden text-center py-20">
             <i class="fas fa-skull text-6xl text-[#3d342d] mb-6"></i>
-            <p class="text-xl text-amber-900/50 font-bold">Nothing here but dust. No cafe found.</p>
+            <p class="text-xl text-amber-900/50 font-bold">Nothing here but dust.</p>
         </div>
     </main>
 
@@ -168,7 +150,7 @@
             <div class="p-6 border-b border-[#4a4036] flex justify-between items-start">
                 <div>
                     <h2 id="modalTitle" class="text-2xl font-black text-[#fef3c7]">Cafe Name</h2>
-                    <p id="modalLocation" class="text-amber-500/60 text-xs font-bold flex items-center gap-2 mt-1 uppercase tracking-wide">
+                    <p id="modalLocation" class="text-amber-500/60 text-xs font-bold flex items-center gap-2 mt-1 uppercase tracking-widest">
                         <i class="fas fa-location-arrow"></i> <span>Location</span>
                     </p>
                 </div>
@@ -184,19 +166,14 @@
 
                 <div class="p-8">
                     <div class="mb-10">
-                        <div class="flex items-center gap-3 mb-6">
-                            <h3 class="font-black text-amber-100 uppercase tracking-widest text-sm">Community Intel</h3>
-                            <div class="h-[1px] flex-1 bg-[#4a4036]"></div>
-                        </div>
-                        <div id="modalReviews" class="space-y-4">
-                            <!-- Reviews populated from Firestore -->
-                        </div>
+                        <h3 class="font-black text-amber-100 uppercase tracking-widest text-sm mb-6">Community Intel</h3>
+                        <div id="modalReviews" class="space-y-4"></div>
                     </div>
 
-                    <div class="bg-[#3d342d] rounded-2xl p-6 border border-[#4a4036] shadow-inner">
+                    <div class="bg-[#3d342d] rounded-2xl p-6 border border-[#4a4036]">
                         <div class="flex justify-between items-center mb-5">
-                            <h3 class="font-black text-amber-200 uppercase tracking-widest text-xs">Add to the Horde</h3>
-                            <div id="starInput" class="flex gap-1 text-amber-500 cursor-pointer">
+                            <h3 class="font-black text-amber-200 uppercase tracking-widest text-xs">Transmit Intel</h3>
+                            <div id="starInput" class="flex gap-1 text-amber-400 cursor-pointer">
                                 <i class="fas fa-star" data-val="1"></i>
                                 <i class="fas fa-star" data-val="2"></i>
                                 <i class="fas fa-star" data-val="3"></i>
@@ -204,9 +181,9 @@
                                 <i class="fas fa-star" data-val="5"></i>
                             </div>
                         </div>
-                        <textarea id="reviewText" placeholder="Was the bean scavenged well?" 
-                            class="w-full p-4 border border-[#4a4036] rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 bg-[#1a1614] text-amber-100 h-28 text-sm placeholder:text-amber-900"></textarea>
-                        <button id="submitBtn" onclick="submitReview()" class="w-full mt-4 bg-amber-700 text-white py-3 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-amber-600 transition shadow-lg shadow-amber-950/40 disabled:opacity-50">Transmit Intel</button>
+                        <textarea id="reviewText" placeholder="Was it worth the scavenge?" 
+                            class="w-full p-4 border border-[#4a4036] rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 bg-[#1a1614] text-amber-100 h-28 text-sm"></textarea>
+                        <button id="submitBtn" onclick="submitReview()" class="w-full mt-4 bg-amber-700 text-white py-3 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-amber-600 transition disabled:opacity-50">Transmit Intel</button>
                     </div>
                 </div>
             </div>
@@ -231,65 +208,25 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = 'brew-rat-guide'; // Custom AppID for branding
+        const appId = 'brew-rat-guide'; 
 
-        // Global State
         let currentUser = null;
+        let cafes = []; 
         let allCloudReviews = [];
+        let unsubscribeCafes = null;
         let unsubscribeReviews = null;
-
-        const cafes = [
-            {
-                id: 1,
-                name: "Cozy Coffles Cafe",
-                city: "Taguig",
-                address: "Zone 1, Lot 18-B, Block 62 Floraville, Rizal, Taguig, 1208 Metro Manila",
-                image: "https://lh3.googleusercontent.com/p/AF1QipMttnYza4nqcTgHgRUHsT9VqKr7TrbcC6EDHscW=s680-w680-h510-rw",
-                specialty: "Cozy Coffee",
-                baseRating: 4.9
-            },
-            {
-                id: 2,
-                name: "VARDI Café",
-                city: "Valenzuela",
-                address: "70 G. Marcelo, Valenzuela, 1440 Metro Manila",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnzX7dAaRA5JkWIsYUFQ8HKMbut0fEPMJQ6g&s",
-                specialty: "Cold Brew",
-                baseRating: 4.1
-            },        
-            {
-                id: 3,
-                name: "Kape Kalinaw",
-                city: "Manila",
-                address: "MX35+FRG, Pampano St, Longos, Manila, Metro Manila",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpI3AEZDBk84sMbzM47iyj-K6IrSnZZiodmQ&s",
-                specialty: "Classic Latte",
-                baseRating: 4.8
-            }
-        ];
-
         let currentFilter = 'All';
         let currentCafeId = null;
         let selectedUserRating = 5;
 
-        const signInWithRetry = async (retries = 5, delay = 1000) => {
+        // Default placeholder for missing/broken images
+        const defaultImg = "https://images.unsplash.com/photo-1501339819398-ed4986bb5af0?q=80&w=800&auto=format&fit=crop";
+
+        const signInWithRetry = async (retries = 3, delay = 1000) => {
             for (let i = 0; i < retries; i++) {
                 try {
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        try {
-                            await signInWithCustomToken(auth, __initial_auth_token);
-                            return;
-                        } catch (tokenErr) {
-                            if (tokenErr.code === 'auth/custom-token-mismatch' || tokenErr.code === 'auth/invalid-custom-token') {
-                                await signInAnonymously(auth);
-                                return;
-                            }
-                            throw tokenErr;
-                        }
-                    } else {
-                        await signInAnonymously(auth);
-                        return;
-                    }
+                    await signInAnonymously(auth);
+                    return;
                 } catch (error) {
                     if (i === retries - 1) throw error;
                     await new Promise(resolve => setTimeout(resolve, delay));
@@ -299,78 +236,100 @@
         };
 
         const init = async () => {
-            const authStatusEl = document.getElementById('authStatus');
-            renderCafes();
             setupSearch();
             setupStars();
 
             onAuthStateChanged(auth, (user) => {
                 currentUser = user;
+                const status = document.getElementById('authStatus');
                 if (user) {
-                    authStatusEl.innerHTML = `<span class="relative flex h-2 w-2 mr-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span></span> Link Established`;
-                    startListeningForReviews(user);
+                    status.innerHTML = `<span class="relative flex h-2 w-2 mr-3"><span class="bg-green-500 rounded-full h-2 w-2"></span></span> Link Established`;
+                    startListeningForData(user);
+                } else {
+                    status.innerHTML = `Link Offline.`;
                 }
             });
 
-            try { await signInWithRetry(); } catch (error) { authStatusEl.innerText = "Link Offline."; }
+            try { await signInWithRetry(); } catch (e) { console.error(e); }
         };
 
-        const startListeningForReviews = (user) => {
+        const startListeningForData = (user) => {
             if (!user) return;
-            if (unsubscribeReviews) unsubscribeReviews();
+            
+            const cafesRef = collection(db, 'artifacts', appId, 'public', 'data', 'cafes');
             const reviewsRef = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
+
+            if (unsubscribeCafes) unsubscribeCafes();
+            unsubscribeCafes = onSnapshot(cafesRef, (snapshot) => {
+                cafes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                console.log("Cafes loaded:", cafes.length);
+                renderCafes();
+            }, (err) => {
+                console.error("CAFES PERMISSION ERROR:", err.message);
+                if (err.code === 'permission-denied') {
+                    window.alertBox("Check your Firestore Rules for the 'cafes' path.");
+                }
+            });
+
+            if (unsubscribeReviews) unsubscribeReviews();
             unsubscribeReviews = onSnapshot(reviewsRef, (snapshot) => {
                 allCloudReviews = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 renderCafes();
                 if (currentCafeId) updateModalReviews();
+            }, (err) => {
+                console.error("REVIEWS PERMISSION ERROR:", err.message);
             });
-        };
-
-        const calculateRating = (cafeId, baseRating) => {
-            const cafeReviews = allCloudReviews.filter(r => r.cafeId === cafeId);
-            if (cafeReviews.length === 0) return baseRating.toFixed(1);
-            const sum = cafeReviews.reduce((acc, curr) => acc + curr.rating, 0);
-            return (sum / cafeReviews.length).toFixed(1);
         };
 
         window.renderCafes = (filterText = '') => {
             const grid = document.getElementById('cafeGrid');
             const noRes = document.getElementById('noResults');
+            
+            // Filtering logic
             const filtered = cafes.filter(c => {
-                const matchesCity = currentFilter === 'All' || c.city === currentFilter;
-                const matchesSearch = c.name.toLowerCase().includes(filterText.toLowerCase()) || 
-                                     c.city.toLowerCase().includes(filterText.toLowerCase());
-                return matchesCity && matchesSearch;
+                const cityMatch = (currentFilter === 'All' || c.city === currentFilter);
+                const searchMatch = (
+                    c.name?.toLowerCase().includes(filterText.toLowerCase()) || 
+                    c.city?.toLowerCase().includes(filterText.toLowerCase())
+                );
+                return cityMatch && searchMatch;
             });
+
             grid.innerHTML = '';
-            if (filtered.length === 0) noRes.classList.remove('hidden');
-            else {
+            
+            if (filtered.length === 0 && cafes.length > 0) {
+                noRes.classList.remove('hidden');
+            } else if (cafes.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-20"><p class="text-amber-900/50 font-black uppercase text-xs tracking-widest">The stash is currently empty.</p></div>`;
+            } else {
                 noRes.classList.add('hidden');
                 filtered.forEach(cafe => {
-                    const rating = calculateRating(cafe.id, cafe.baseRating);
+                    const revs = allCloudReviews.filter(r => r.cafeId === cafe.id);
+                    const rating = revs.length ? (revs.reduce((a,b)=>a+b.rating,0)/revs.length).toFixed(1) : (Number(cafe.baseRating)||5.0).toFixed(1);
+                    
+                    // Final fallback image URL
+                    const imageSrc = cafe.image || defaultImg;
+
                     const card = document.createElement('div');
-                    card.className = 'cafe-card rounded-3xl overflow-hidden border cursor-pointer flex flex-col group';
+                    card.className = 'cafe-card rounded-3xl overflow-hidden border border-[#4a4036] cursor-pointer flex flex-col group';
                     card.onclick = () => window.openModal(cafe.id);
                     card.innerHTML = `
                         <div class="img-container">
-                            <img src="${cafe.image}" alt="${cafe.name}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
-                            <div class="absolute top-4 left-4 z-20 bg-amber-900/90 text-[#fef3c7] px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest shadow-xl backdrop-blur-md border border-amber-800/50">
-                                ${cafe.city}
-                            </div>
+                            <img src="${imageSrc}" 
+                                 onerror="this.src='${defaultImg}'; this.onerror=null;"
+                                 alt="${cafe.name}" 
+                                 class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
+                            <div class="absolute top-4 left-4 z-20 bg-amber-900/90 text-[#fef3c7] px-3 py-1 rounded-full text-[9px] font-black border border-amber-800/50 uppercase tracking-widest">${cafe.city || 'Metro'}</div>
                         </div>
-                        <div class="p-6 flex flex-col flex-1">
-                            <div class="flex justify-between items-start mb-2">
-                                <h3 class="font-black text-xl text-[#fef3c7] group-hover:text-amber-500 transition-colors">${cafe.name}</h3>
-                                <div class="flex items-center gap-1 text-sm font-black text-amber-500">
-                                    <i class="fas fa-star text-amber-500"></i> ${rating}
-                                </div>
+                        <div class="p-6 flex flex-1 flex-col">
+                            <div class="flex justify-between mb-2">
+                                <h3 class="font-black text-xl text-[#fef3c7] group-hover:text-amber-500">${cafe.name || 'Hole in the Wall'}</h3>
+                                <div class="text-amber-500 font-black text-sm flex items-center gap-1"><i class="fas fa-star"></i> ${rating}</div>
                             </div>
-                            <p class="text-amber-200/40 text-[11px] mb-4 line-clamp-1 font-bold uppercase tracking-tight">
-                                <i class="fas fa-map-marker-alt mr-2 text-amber-800"></i> ${cafe.address}
-                            </p>
-                            <div class="mt-auto pt-4 border-t border-[#4a4036] flex justify-between items-center">
-                                <span class="text-[10px] bg-[#2b2521] text-amber-400 px-3 py-1.5 rounded-lg font-black uppercase border border-[#4a4036] tracking-widest">${cafe.specialty}</span>
-                                <span class="text-amber-500 text-xs font-black uppercase tracking-widest">Open</span>
+                            <p class="text-amber-200/40 text-[10px] uppercase font-bold mb-4 line-clamp-1"><i class="fas fa-map-marker-alt mr-2"></i> ${cafe.address || 'Secret Location'}</p>
+                            <div class="mt-auto flex justify-between items-center border-t border-[#4a4036] pt-4">
+                                <span class="text-[9px] bg-[#2b2521] text-amber-400 px-3 py-1 rounded-lg border border-[#4a4036] uppercase font-black">${cafe.specialty || 'Unique Brew'}</span>
+                                <span class="text-amber-500 text-[10px] uppercase font-black">Intel</span>
                             </div>
                         </div>
                     `;
@@ -382,26 +341,27 @@
         window.filterCity = (city) => {
             currentFilter = city;
             document.querySelectorAll('.city-filter').forEach(btn => {
-                btn.classList.remove('bg-amber-700', 'text-white');
-                btn.classList.add('bg-[#3d342d]', 'text-amber-100/60');
-                if (btn.innerText === city) {
-                    btn.classList.add('bg-amber-700', 'text-white');
-                    btn.classList.remove('bg-[#3d342d]', 'text-amber-100/60');
-                }
+                const isActive = btn.innerText === city || (city === 'All' && btn.innerText === 'All');
+                btn.className = isActive ? 'city-filter px-5 py-2 rounded-full text-xs font-black uppercase bg-amber-700 text-white' : 'city-filter px-5 py-2 rounded-full text-xs font-bold uppercase bg-[#3d342d] text-amber-100/60 hover:bg-[#4a4036]';
             });
             window.renderCafes(document.getElementById('searchInput').value);
         };
 
-        const setupSearch = () => {
-            document.getElementById('searchInput').addEventListener('input', (e) => window.renderCafes(e.target.value));
+        const setupSearch = () => document.getElementById('searchInput').addEventListener('input', (e) => window.renderCafes(e.target.value));
+        const setupStars = () => document.querySelectorAll('#starInput i').forEach(s => s.onclick = () => window.updateStarUI(parseInt(s.getAttribute('data-val'))));
+
+        window.updateStarUI = (v) => {
+            document.querySelectorAll('#starInput i').forEach((s, i) => s.className = i < v ? 'fas fa-star' : 'far fa-star');
+            selectedUserRating = v;
         };
 
         window.openModal = (id) => {
             currentCafeId = id;
             const cafe = cafes.find(c => c.id === id);
+            if (!cafe) return;
             document.getElementById('modalTitle').innerText = cafe.name;
             document.getElementById('modalLocation').querySelector('span').innerText = cafe.address;
-            document.getElementById('modalMap').src = `https://maps.google.com/maps?q=${encodeURIComponent(cafe.name + ' ' + cafe.address)}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
+            document.getElementById('modalMap').src = `https://maps.google.com/maps?q=${encodeURIComponent(cafe.name + ' ' + (cafe.address || ''))}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
             updateModalReviews();
             document.getElementById('reviewModal').classList.remove('hidden');
             document.getElementById('reviewModal').classList.add('flex');
@@ -413,69 +373,42 @@
             const container = document.getElementById('modalReviews');
             container.innerHTML = '';
             const filtered = allCloudReviews.filter(r => r.cafeId === currentCafeId).sort((a,b) => (b.timestamp?.seconds||0)-(a.timestamp?.seconds||0));
-            if (filtered.length === 0) {
-                container.innerHTML = `<p class="text-xs text-amber-800 font-bold uppercase tracking-widest italic text-center py-4">No intel found in the horde.</p>`;
-                return;
-            }
-            filtered.forEach(rev => {
-                const rDiv = document.createElement('div');
-                rDiv.className = 'bg-[#1a1614] p-5 rounded-2xl border border-[#4a4036]';
-                rDiv.innerHTML = `
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="font-black text-amber-500 text-[10px] uppercase tracking-widest">SCAVENGER ${rev.user.substring(0, 4)}</span>
-                        <div class="text-[9px] text-amber-600 flex gap-0.5">
-                            ${Array(5).fill(0).map((_, i) => `<i class="${i < rev.rating ? 'fas' : 'far'} fa-star"></i>`).join('')}
-                        </div>
-                    </div>
-                    <p class="text-amber-100/80 text-sm leading-relaxed">"${rev.text}"</p>
-                `;
-                container.appendChild(rDiv);
+            if (!filtered.length) { container.innerHTML = `<p class="text-[10px] text-amber-800 font-black uppercase text-center py-4">No intel found.</p>`; return; }
+            filtered.forEach(r => {
+                const div = document.createElement('div');
+                div.className = 'bg-[#1a1614] p-5 rounded-2xl border border-[#4a4036]';
+                div.innerHTML = `<div class="flex justify-between mb-2"><span class="text-amber-500 font-black text-[9px] uppercase tracking-widest">SCAVENGER ${r.user?.substring(0,4)}</span><div class="text-[9px] text-amber-600">${Array(5).fill(0).map((_,i)=>`<i class="${i<r.rating?'fas':'far'} fa-star"></i>`).join('')}</div></div><p class="text-amber-100/80 text-sm">"${r.text}"</p>`;
+                container.appendChild(div);
             });
         };
 
         window.closeModal = () => {
             document.getElementById('reviewModal').classList.add('hidden');
-            document.getElementById('reviewModal').classList.remove('flex');
             document.body.style.overflow = 'auto';
             document.getElementById('modalMap').src = '';
             currentCafeId = null;
         };
 
-        const setupStars = () => {
-            document.querySelectorAll('#starInput i').forEach(star => {
-                star.addEventListener('click', () => window.updateStarUI(parseInt(star.getAttribute('data-val'))));
-            });
-        };
-
-        window.updateStarUI = (val) => {
-            document.querySelectorAll('#starInput i').forEach((s, i) => {
-                if (i < val) { s.classList.add('fas'); s.classList.remove('far'); }
-                else { s.classList.add('far'); s.classList.remove('fas'); }
-            });
-            selectedUserRating = val;
-        };
-
         window.submitReview = async () => {
-            if (!currentUser) { window.alertBox("LINK OFFLINE. WAIT..."); return; }
+            if (!currentUser) return;
             const text = document.getElementById('reviewText').value.trim();
-            if (!text) { window.alertBox("NO INTEL PROVIDED."); return; }
+            if (!text) return;
             const btn = document.getElementById('submitBtn');
             btn.disabled = true; btn.innerText = "TRANSMITTING...";
             try {
-                const reviewsRef = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
-                await addDoc(reviewsRef, { cafeId: currentCafeId, rating: selectedUserRating, text, user: currentUser.uid, timestamp: serverTimestamp() });
-                window.alertBox("INTEL RECEIVED BY THE HORDE.");
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'reviews'), { cafeId: currentCafeId, rating: selectedUserRating, text, user: currentUser.uid, timestamp: serverTimestamp() });
+                window.alertBox("INTEL RECEIVED.");
                 document.getElementById('reviewText').value = '';
-            } catch (error) { window.alertBox("TRANSMISSION FAILED."); }
-            finally { btn.disabled = false; btn.innerText = "Post Intel"; }
+            } catch (e) { console.error(e); window.alertBox("PERMISSION ERROR - CHECK CONSOLE."); }
+            finally { btn.disabled = false; btn.innerText = "Transmit Intel"; }
         };
 
         window.alertBox = (msg) => {
             const box = document.createElement('div');
-            box.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 bg-amber-600 text-white px-8 py-4 rounded-2xl shadow-2xl z-[200] transition-opacity font-black text-[10px] uppercase tracking-[0.2em] border-2 border-amber-500';
+            box.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 bg-amber-600 text-white px-8 py-4 rounded-2xl shadow-2xl z-[200] font-black text-[10px] uppercase tracking-widest border-2 border-amber-500 text-center max-w-[90%]';
             box.innerText = msg;
             document.body.appendChild(box);
-            setTimeout(() => { box.style.opacity = '0'; setTimeout(() => box.remove(), 500); }, 6000); 
+            setTimeout(() => box.remove(), 8000); 
         };
 
         init();
