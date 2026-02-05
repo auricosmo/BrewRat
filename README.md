@@ -10,9 +10,9 @@ Finding your next caffeine fix is simple:
 
 The Stash: Browse the main grid to see a curated list of indie cafes.
 
-Urban Filters: Use the city buttons (Taguig, Valenzuela, Manila, etc.) to narrow down your search area.
+Urban Filters: Search by name or city using the main search bar at the top.
 
-Search: Use the scavenge bar at the top to find specific spots by name or specialty.
+Rat King's Pick: Look for the gold crown badge on cafes marked as the "Rat King's Choice."
 
 Real-Time Intel: Every time you load the page, you're getting live data straight from the cloud.
 
@@ -26,19 +26,6 @@ Select a Spot: Click on any cafe card to open the detailed intel view.
 
 Rate the Roast: Click the golden stars (1-5) to set your rating.
 
-Write the Report: Type your honest feedback in the text box.
+Write the Report: Type your honest feedback in the text box. Look for the <i class="fas fa-clipboard-list"></i> Intel icon to see community logs.
 
 Transmit: Hit "Transmit Intel" to save your review permanently to the cloud for all other scavengers to see.
-
-<br>
-
-🗺️ Navigating the Nest
-
-Inside every cafe guide, you'll find:
-
-Scavenger Maps: A live Google Maps embed showing the exact location.
-
-Must-Try Brews: Look for the "Try:" tag to see the cafe's signature beverage.
-
-The Score: See the real-time average rating calculated from all community transmissions.
-
