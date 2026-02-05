@@ -110,15 +110,20 @@
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-3">
                 <div class="bg-amber-900/40 p-2 rounded-xl border border-amber-800/50">
-                    <svg width="45" height="45" viewBox="0 0 100 100" class="rat-logo-svg" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M75,70 Q90,70 85,55 Q80,45 65,40 Q50,35 40,45 Q30,55 35,70 L75,70" fill="#a67c52" />
-                        <path d="M75,70 Q95,75 90,60" fill="none" stroke="#8c6641" stroke-width="3" />
-                        <circle cx="45" cy="40" r="8" fill="#8c6641" />
-                        <circle cx="42" cy="48" r="2" fill="#1a1614" />
-                        <rect x="20" y="55" width="20" height="18" rx="2" fill="#e8d5c4" />
-                        <path d="M40,58 Q45,58 45,63 Q45,68 40,68" fill="none" stroke="#e8d5c4" stroke-width="2" />
-                        <path d="M25,50 Q28,45 25,40" fill="none" stroke="#e8d5c4" stroke-width="1.5" opacity="0.6" />
-                        <path d="M32,50 Q35,45 32,40" fill="none" stroke="#e8d5c4" stroke-width="1.5" opacity="0.6" />
+                    <svg width="50" height="50" viewBox="0 0 100 100" class="rat-logo-svg" xmlns="http://www.w3.org/2000/svg">
+                        <g transform="translate(-10, -2) scale(1.15)">
+                            <path d="M75,70 Q90,70 85,55 Q80,45 65,40 Q50,35 40,45 Q30,55 35,70 L75,70" fill="#a67c52" />
+                            <path d="M75,70 Q95,75 90,60" fill="none" stroke="#8c6641" stroke-width="3" stroke-linecap="round" />
+                            <circle cx="45" cy="40" r="8" fill="#8c6641" />
+                            <path d="M42,32 L39,26 L43,29 L46,24 L49,29 L53,26 L50,32 Z" fill="#fbbf24" stroke="#1a1614" stroke-width="0.5" />
+                            <circle cx="42" cy="48" r="2" fill="#1a1614" />
+                            <rect x="20" y="55" width="20" height="18" rx="2" fill="#e8d5c4" />
+                            <path d="M40,58 Q45,58 45,63 Q45,68 40,68" fill="none" stroke="#e8d5c4" stroke-width="2" />
+                            <g opacity="0.6">
+                                <path d="M25,50 Q28,45 25,40" fill="none" stroke="#e8d5c4" stroke-width="1.5" />
+                                <path d="M32,50 Q35,45 32,40" fill="none" stroke="#e8d5c4" stroke-width="1.5" />
+                            </g>
+                        </g>
                     </svg>
                 </div>
                 <div class="flex flex-col">
@@ -295,10 +300,14 @@
             const grid = document.getElementById('cafeGrid');
             const noRes = document.getElementById('noResults');
             
+            // Filter by search text AND ensure the cafe isn't marked as hidden in Firebase
             const filtered = cafes.filter(c => {
                 const searchLower = filterText.toLowerCase();
-                return c.name?.toLowerCase().includes(searchLower) || 
-                       c.city?.toLowerCase().includes(searchLower);
+                const matchesSearch = c.name?.toLowerCase().includes(searchLower) || 
+                                     c.city?.toLowerCase().includes(searchLower);
+                const isNotHidden = c.isHidden !== true; // Logic to hide cafe
+                
+                return matchesSearch && isNotHidden;
             });
 
             grid.innerHTML = '';
@@ -375,7 +384,6 @@
             document.getElementById('modalTitle').innerText = cafe.name;
             document.getElementById('modalLocation').querySelector('span').innerText = cafe.address;
             
-            // CLEANER MAP URL: Use a simpler search query and minimal parameters for better cross-origin reliability
             const searchQuery = `${cafe.name}, ${cafe.address || ''}`.trim();
             document.getElementById('modalMap').src = `https://maps.google.com/maps?q=${encodeURIComponent(searchQuery)}&output=embed`;
             
@@ -410,7 +418,7 @@
         window.closeModal = () => {
             document.getElementById('reviewModal').classList.add('hidden');
             document.body.style.overflow = 'auto';
-            document.getElementById('modalMap').src = 'about:blank'; // Reset to prevent leakage/noise
+            document.getElementById('modalMap').src = 'about:blank'; 
             currentCafeId = null;
         };
 
