@@ -9,7 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
         
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -25,11 +25,32 @@
         .cafe-card:hover {
             transform: translateY(-5px);
             transition: all 0.3s ease;
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+            box-shadow: 0 15px 35px -10px rgba(0,0,0,0.6);
         }
 
         .cafe-card:hover img {
             transform: scale(1.05);
+        }
+
+        /* Intel Pop-out Effect */
+        .intel-badge {
+            background: linear-gradient(135deg, #d97706, #b45309);
+            box-shadow: 0 0 12px rgba(217, 119, 6, 0.4);
+            animation: subtle-pulse 3s infinite;
+        }
+
+        /* Rat King's Pick Badge */
+        .king-pick-badge {
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+            color: #1a1614;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
+            border: 2px solid #2b2521;
+        }
+
+        @keyframes subtle-pulse {
+            0% { box-shadow: 0 0 8px rgba(217, 119, 6, 0.4); }
+            50% { box-shadow: 0 0 16px rgba(217, 119, 6, 0.7); }
+            100% { box-shadow: 0 0 8px rgba(217, 119, 6, 0.4); }
         }
 
         .custom-scrollbar::-webkit-scrollbar {
@@ -49,20 +70,6 @@
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
-        }
-
-        .map-container-hero {
-            position: relative;
-            padding-bottom: 75%; 
-            height: 0;
-            overflow: hidden;
-        }
-        .map-container-hero iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
         }
 
         .img-container {
@@ -102,21 +109,14 @@
                 </div>
                 <div class="flex flex-col">
                     <h1 class="text-3xl font-black text-[#fef3c7] leading-none tracking-tighter">BrewRat</h1>
-                    <span class="text-[9px] font-bold uppercase tracking-[0.2em] text-amber-500/80 mt-1">The Metro's Scavenged Specialty Guide</span>
+                    <span class="text-[9px] font-bold uppercase tracking-[0.2em] text-amber-500/80 mt-1">Specialty Scavenger Guide</span>
                 </div>
             </div>
             
-            <div class="flex flex-1 max-w-xl w-full relative">
+            <div class="flex flex-1 max-w-2xl w-full relative">
                 <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-amber-500/50"></i>
-                <input type="text" id="searchInput" placeholder="Scavenge for your favorite spot..." 
-                    class="w-full pl-11 pr-4 py-2 border border-[#4a4036] rounded-full focus:outline-none focus:ring-2 focus:ring-amber-500 bg-[#1a1614] text-amber-100 placeholder:text-amber-900">
-            </div>
-
-            <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
-                <button onclick="filterCity('All')" class="city-filter px-5 py-2 rounded-full text-xs font-black uppercase tracking-wider bg-amber-700 text-white transition-all">All</button>
-                <button onclick="filterCity('Taguig')" class="city-filter px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-[#3d342d] text-amber-100/60 hover:bg-[#4a4036] transition-all">Taguig</button>
-                <button onclick="filterCity('Valenzuela')" class="city-filter px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-[#3d342d] text-amber-100/60 hover:bg-[#4a4036] transition-all">Valenzuela</button>
-                <button onclick="filterCity('Manila')" class="city-filter px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-[#3d342d] text-amber-100/60 hover:bg-[#4a4036] transition-all">Manila</button>
+                <input type="text" id="searchInput" placeholder="Search the streets for beans or locations..." 
+                    class="w-full pl-11 pr-4 py-3 border border-[#4a4036] rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-500 bg-[#1a1614] text-amber-100 placeholder:text-amber-900 transition-all">
             </div>
         </div>
     </header>
@@ -124,8 +124,8 @@
     <main class="max-w-7xl mx-auto px-4 py-8">
         <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-                <h2 class="text-4xl font-black text-[#fef3c7] tracking-tight mb-2">The Nests</h2>
-                <p class="text-amber-200/50 max-w-md leading-relaxed">I scavenge the streets of the metro so you don't have to.</p>
+                <h2 class="text-4xl font-black text-[#fef3c7] tracking-tight mb-2">The Nest</h2>
+                <p class="text-amber-200/50 max-w-md leading-relaxed">Scavenging the best independent roasts in the metro. Search by name or city above to filter the stash.</p>
             </div>
             <div id="authStatus" class="text-[10px] font-black uppercase tracking-widest text-amber-500 bg-amber-950/40 px-5 py-3 rounded-2xl border border-amber-900/50 italic flex items-center">
                 Establishing Link...
@@ -134,13 +134,13 @@
 
         <div id="cafeGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             <div class="col-span-full text-center py-20 animate-pulse">
-                <p class="text-amber-900/50 font-black uppercase text-xs tracking-widest">Searching the streets...</p>
+                <p class="text-amber-900/50 font-black uppercase text-xs tracking-widest">Searching the stash...</p>
             </div>
         </div>
 
         <div id="noResults" class="hidden text-center py-20">
             <i class="fas fa-skull text-6xl text-[#3d342d] mb-6"></i>
-            <p class="text-xl text-amber-900/50 font-bold">Nothing here but dust.</p>
+            <p class="text-xl text-amber-900/50 font-bold uppercase tracking-widest">Nothing found in this sector.</p>
         </div>
     </main>
 
@@ -166,14 +166,21 @@
 
                 <div class="p-8">
                     <div class="mb-10">
-                        <h3 class="font-black text-amber-100 uppercase tracking-widest text-sm mb-6">Community Intel</h3>
+                        <div class="flex items-center gap-3 mb-6">
+                            <i class="fas fa-clipboard-list text-amber-500"></i>
+                            <h3 class="font-black text-amber-100 uppercase tracking-widest text-sm">Community Intel</h3>
+                            <div class="h-[1px] flex-1 bg-[#4a4036]"></div>
+                        </div>
                         <div id="modalReviews" class="space-y-4"></div>
                     </div>
 
                     <div class="bg-[#3d342d] rounded-2xl p-6 border border-[#4a4036]">
                         <div class="flex justify-between items-center mb-5">
-                            <h3 class="font-black text-amber-200 uppercase tracking-widest text-xs">Transmit Intel</h3>
-                            <div id="starInput" class="flex gap-1 text-amber-400 cursor-pointer">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-pen-nib text-amber-500 text-xs"></i>
+                                <h3 class="font-black text-amber-200 uppercase tracking-widest text-xs">Transmit Intel</h3>
+                            </div>
+                            <div id="starInput" class="flex gap-1 text-amber-500 cursor-pointer">
                                 <i class="fas fa-star" data-val="1"></i>
                                 <i class="fas fa-star" data-val="2"></i>
                                 <i class="fas fa-star" data-val="3"></i>
@@ -181,9 +188,9 @@
                                 <i class="fas fa-star" data-val="5"></i>
                             </div>
                         </div>
-                        <textarea id="reviewText" placeholder="Was it worth the scavenge?" 
-                            class="w-full p-4 border border-[#4a4036] rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 bg-[#1a1614] text-amber-100 h-28 text-sm"></textarea>
-                        <button id="submitBtn" onclick="submitReview()" class="w-full mt-4 bg-amber-700 text-white py-3 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-amber-600 transition disabled:opacity-50">Transmit Intel</button>
+                        <textarea id="reviewText" placeholder="Record your findings..." 
+                            class="w-full p-4 border border-[#4a4036] rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 bg-[#1a1614] text-amber-100 h-28 text-sm placeholder:text-amber-900"></textarea>
+                        <button id="submitBtn" onclick="submitReview()" class="w-full mt-4 intel-badge text-white py-3 rounded-xl font-black uppercase tracking-widest text-xs hover:brightness-110 transition disabled:opacity-50">Transmit Intel</button>
                     </div>
                 </div>
             </div>
@@ -215,11 +222,9 @@
         let allCloudReviews = [];
         let unsubscribeCafes = null;
         let unsubscribeReviews = null;
-        let currentFilter = 'All';
         let currentCafeId = null;
         let selectedUserRating = 5;
 
-        // Default placeholder for missing/broken images
         const defaultImg = "https://images.unsplash.com/photo-1501339819398-ed4986bb5af0?q=80&w=800&auto=format&fit=crop";
 
         const signInWithRetry = async (retries = 3, delay = 1000) => {
@@ -255,20 +260,13 @@
 
         const startListeningForData = (user) => {
             if (!user) return;
-            
             const cafesRef = collection(db, 'artifacts', appId, 'public', 'data', 'cafes');
             const reviewsRef = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
 
             if (unsubscribeCafes) unsubscribeCafes();
             unsubscribeCafes = onSnapshot(cafesRef, (snapshot) => {
                 cafes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                console.log("Cafes loaded:", cafes.length);
                 renderCafes();
-            }, (err) => {
-                console.error("CAFES PERMISSION ERROR:", err.message);
-                if (err.code === 'permission-denied') {
-                    window.alertBox("Check your Firestore Rules for the 'cafes' path.");
-                }
             });
 
             if (unsubscribeReviews) unsubscribeReviews();
@@ -276,8 +274,6 @@
                 allCloudReviews = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 renderCafes();
                 if (currentCafeId) updateModalReviews();
-            }, (err) => {
-                console.error("REVIEWS PERMISSION ERROR:", err.message);
             });
         };
 
@@ -285,14 +281,10 @@
             const grid = document.getElementById('cafeGrid');
             const noRes = document.getElementById('noResults');
             
-            // Filtering logic
             const filtered = cafes.filter(c => {
-                const cityMatch = (currentFilter === 'All' || c.city === currentFilter);
-                const searchMatch = (
-                    c.name?.toLowerCase().includes(filterText.toLowerCase()) || 
-                    c.city?.toLowerCase().includes(filterText.toLowerCase())
-                );
-                return cityMatch && searchMatch;
+                const searchLower = filterText.toLowerCase();
+                return c.name?.toLowerCase().includes(searchLower) || 
+                       c.city?.toLowerCase().includes(searchLower);
             });
 
             grid.innerHTML = '';
@@ -300,21 +292,29 @@
             if (filtered.length === 0 && cafes.length > 0) {
                 noRes.classList.remove('hidden');
             } else if (cafes.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-20"><p class="text-amber-900/50 font-black uppercase text-xs tracking-widest">The stash is currently empty.</p></div>`;
+                grid.innerHTML = `<div class="col-span-full text-center py-20"><p class="text-amber-900/50 font-black uppercase text-xs tracking-widest">Searching the stash...</p></div>`;
             } else {
                 noRes.classList.add('hidden');
                 filtered.forEach(cafe => {
                     const revs = allCloudReviews.filter(r => r.cafeId === cafe.id);
                     const rating = revs.length ? (revs.reduce((a,b)=>a+b.rating,0)/revs.length).toFixed(1) : (Number(cafe.baseRating)||5.0).toFixed(1);
-                    
-                    // Final fallback image URL
                     const imageSrc = cafe.image || defaultImg;
 
                     const card = document.createElement('div');
-                    card.className = 'cafe-card rounded-3xl overflow-hidden border border-[#4a4036] cursor-pointer flex flex-col group';
+                    card.className = 'cafe-card rounded-3xl overflow-hidden border border-[#4a4036] cursor-pointer flex flex-col group relative';
                     card.onclick = () => window.openModal(cafe.id);
+                    
+                    // Rat King's Pick Check
+                    const kingBadge = cafe.isChiefFavorite ? `
+                        <div class="absolute top-4 right-4 z-30 king-pick-badge px-3 py-1.5 rounded-xl flex items-center gap-1.5 animate-bounce">
+                            <i class="fas fa-crown text-[10px]"></i>
+                            <span class="text-[9px] font-black uppercase tracking-tighter">Rat King's Pick</span>
+                        </div>
+                    ` : '';
+
                     card.innerHTML = `
                         <div class="img-container">
+                            ${kingBadge}
                             <img src="${imageSrc}" 
                                  onerror="this.src='${defaultImg}'; this.onerror=null;"
                                  alt="${cafe.name}" 
@@ -323,13 +323,15 @@
                         </div>
                         <div class="p-6 flex flex-1 flex-col">
                             <div class="flex justify-between mb-2">
-                                <h3 class="font-black text-xl text-[#fef3c7] group-hover:text-amber-500">${cafe.name || 'Hole in the Wall'}</h3>
+                                <h3 class="font-black text-xl text-[#fef3c7] group-hover:text-amber-500 transition-colors">${cafe.name || 'Hole in the Wall'}</h3>
                                 <div class="text-amber-500 font-black text-sm flex items-center gap-1"><i class="fas fa-star"></i> ${rating}</div>
                             </div>
-                            <p class="text-amber-200/40 text-[10px] uppercase font-bold mb-4 line-clamp-1"><i class="fas fa-map-marker-alt mr-2"></i> ${cafe.address || 'Secret Location'}</p>
+                            <p class="text-amber-200/40 text-[10px] uppercase font-bold mb-4 line-clamp-1"><i class="fas fa-map-marker-alt mr-2 text-amber-800"></i> ${cafe.address || 'Secret Location'}</p>
                             <div class="mt-auto flex justify-between items-center border-t border-[#4a4036] pt-4">
                                 <span class="text-[9px] bg-[#2b2521] text-amber-400 px-3 py-1 rounded-lg border border-[#4a4036] uppercase font-black">${cafe.specialty || 'Unique Brew'}</span>
-                                <span class="text-amber-500 text-[10px] uppercase font-black">Intel</span>
+                                <span class="intel-badge text-white text-[10px] uppercase font-black px-3 py-1 rounded-full flex items-center gap-2">
+                                    <i class="fas fa-clipboard-list text-[10px]"></i> Intel
+                                </span>
                             </div>
                         </div>
                     `;
@@ -338,17 +340,15 @@
             }
         };
 
-        window.filterCity = (city) => {
-            currentFilter = city;
-            document.querySelectorAll('.city-filter').forEach(btn => {
-                const isActive = btn.innerText === city || (city === 'All' && btn.innerText === 'All');
-                btn.className = isActive ? 'city-filter px-5 py-2 rounded-full text-xs font-black uppercase bg-amber-700 text-white' : 'city-filter px-5 py-2 rounded-full text-xs font-bold uppercase bg-[#3d342d] text-amber-100/60 hover:bg-[#4a4036]';
+        const setupSearch = () => {
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                window.renderCafes(e.target.value);
             });
-            window.renderCafes(document.getElementById('searchInput').value);
         };
 
-        const setupSearch = () => document.getElementById('searchInput').addEventListener('input', (e) => window.renderCafes(e.target.value));
-        const setupStars = () => document.querySelectorAll('#starInput i').forEach(s => s.onclick = () => window.updateStarUI(parseInt(s.getAttribute('data-val'))));
+        const setupStars = () => {
+            document.querySelectorAll('#starInput i').forEach(s => s.onclick = () => window.updateStarUI(parseInt(s.getAttribute('data-val'))));
+        };
 
         window.updateStarUI = (v) => {
             document.querySelectorAll('#starInput i').forEach((s, i) => s.className = i < v ? 'fas fa-star' : 'far fa-star');
@@ -373,11 +373,19 @@
             const container = document.getElementById('modalReviews');
             container.innerHTML = '';
             const filtered = allCloudReviews.filter(r => r.cafeId === currentCafeId).sort((a,b) => (b.timestamp?.seconds||0)-(a.timestamp?.seconds||0));
-            if (!filtered.length) { container.innerHTML = `<p class="text-[10px] text-amber-800 font-black uppercase text-center py-4">No intel found.</p>`; return; }
+            if (!filtered.length) { 
+                container.innerHTML = `<p class="text-[10px] text-amber-800 font-black uppercase text-center py-4 tracking-widest">No community intel yet.</p>`; 
+                return; 
+            }
             filtered.forEach(r => {
                 const div = document.createElement('div');
                 div.className = 'bg-[#1a1614] p-5 rounded-2xl border border-[#4a4036]';
-                div.innerHTML = `<div class="flex justify-between mb-2"><span class="text-amber-500 font-black text-[9px] uppercase tracking-widest">SCAVENGER ${r.user?.substring(0,4)}</span><div class="text-[9px] text-amber-600">${Array(5).fill(0).map((_,i)=>`<i class="${i<r.rating?'fas':'far'} fa-star"></i>`).join('')}</div></div><p class="text-amber-100/80 text-sm">"${r.text}"</p>`;
+                div.innerHTML = `
+                    <div class="flex justify-between mb-2">
+                        <span class="text-amber-500 font-black text-[9px] uppercase tracking-widest">SCAVENGER ${r.user?.substring(0,4)}</span>
+                        <div class="text-[9px] text-amber-600">${Array(5).fill(0).map((_,i)=>`<i class="${i<r.rating?'fas':'far'} fa-star"></i>`).join('')}</div>
+                    </div>
+                    <p class="text-amber-100/80 text-sm italic">"${r.text}"</p>`;
                 container.appendChild(div);
             });
         };
@@ -396,16 +404,27 @@
             const btn = document.getElementById('submitBtn');
             btn.disabled = true; btn.innerText = "TRANSMITTING...";
             try {
-                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'reviews'), { cafeId: currentCafeId, rating: selectedUserRating, text, user: currentUser.uid, timestamp: serverTimestamp() });
-                window.alertBox("INTEL RECEIVED.");
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'reviews'), { 
+                    cafeId: currentCafeId, 
+                    rating: selectedUserRating, 
+                    text, 
+                    user: currentUser.uid, 
+                    timestamp: serverTimestamp() 
+                });
+                window.alertBox("INTEL TRANSMITTED SUCCESSFULLY.");
                 document.getElementById('reviewText').value = '';
-            } catch (e) { console.error(e); window.alertBox("PERMISSION ERROR - CHECK CONSOLE."); }
-            finally { btn.disabled = false; btn.innerText = "Transmit Intel"; }
+            } catch (e) { 
+                console.error(e); 
+                window.alertBox("TRANSMISSION FAILED. CHECK SYSTEM RULES."); 
+            } finally { 
+                btn.disabled = false; 
+                btn.innerText = "Transmit Intel"; 
+            }
         };
 
         window.alertBox = (msg) => {
             const box = document.createElement('div');
-            box.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 bg-amber-600 text-white px-8 py-4 rounded-2xl shadow-2xl z-[200] font-black text-[10px] uppercase tracking-widest border-2 border-amber-500 text-center max-w-[90%]';
+            box.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 intel-badge text-white px-8 py-4 rounded-2xl shadow-2xl z-[200] font-black text-[10px] uppercase tracking-widest border-2 border-amber-500 text-center max-w-[90%]';
             box.innerText = msg;
             document.body.appendChild(box);
             setTimeout(() => box.remove(), 8000); 
