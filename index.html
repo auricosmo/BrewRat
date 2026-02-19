@@ -11,101 +11,22 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
         
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #2b2521; 
-            color: #e8d5c4; 
-        }
-
-        .cafe-card {
-            background-color: #3d342d;
-            border-color: #4a4036;
-        }
-
-        .cafe-card:hover {
-            transform: translateY(-5px);
-            transition: all 0.3s ease;
-            box-shadow: 0 15px 35px -10px rgba(0,0,0,0.6);
-        }
-
-        .cafe-card:hover img {
-            transform: scale(1.05);
-        }
-
-        /* Intel Pop-out Effect */
-        .intel-badge {
-            background: linear-gradient(135deg, #d97706, #b45309);
-            box-shadow: 0 0 12px rgba(217, 119, 6, 0.4);
-            animation: subtle-pulse 3s infinite;
-        }
-
-        /* Rat King's Pick Badge */
-        .king-pick-badge {
-            background: linear-gradient(135deg, #fbbf24, #d97706);
-            color: #1a1614;
-            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
-            border: 2px solid #2b2521;
-        }
-
-        @keyframes subtle-pulse {
-            0% { box-shadow: 0 0 8px rgba(217, 119, 6, 0.4); }
-            50% { box-shadow: 0 0 16px rgba(217, 119, 6, 0.7); }
-            100% { box-shadow: 0 0 8px rgba(217, 119, 6, 0.4); }
-        }
-
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #2b2521;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #a67c52;
-            border-radius: 10px;
-        }
-
-        .modal-enter {
-            animation: fadeIn 0.2s ease-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .map-container-hero {
-            position: relative;
-            padding-bottom: 75%; 
-            height: 0;
-            overflow: hidden;
-        }
-        .map-container-hero iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .img-container {
-            position: relative;
-            height: 14rem;
-            width: 100%;
-            overflow: hidden;
-            background-color: #1a1614;
-        }
-        
-        .img-container img {
-            transition: transform 0.5s ease;
-        }
-
-        .rat-logo-svg {
-            filter: drop-shadow(0 0 8px rgba(166, 124, 82, 0.3));
-        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #2b2521; color: #e8d5c4; }
+        .cafe-card { background-color: #3d342d; border-color: #4a4036; transition: all 0.3s ease; }
+        .cafe-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px -10px rgba(0,0,0,0.6); }
+        .intel-badge { background: linear-gradient(135deg, #d97706, #b45309); animation: subtle-pulse 3s infinite; }
+        .king-pick-badge { background: linear-gradient(135deg, #fbbf24, #d97706); color: #1a1614; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4); border: 2px solid #2b2521; }
+        @keyframes subtle-pulse { 0%, 100% { box-shadow: 0 0 8px rgba(217, 119, 6, 0.4); } 50% { box-shadow: 0 0 16px rgba(217, 119, 6, 0.7); } }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #2b2521; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #a67c52; border-radius: 10px; }
+        .vibe-tag { font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .vibe-good { background: rgba(52, 211, 153, 0.1); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.2); }
+        .vibe-bad { background: rgba(248, 113, 113, 0.1); color: #f87171; border: 1px solid rgba(248, 113, 113, 0.2); }
     </style>
 </head>
 <body class="selection:bg-amber-500/30">
 
-    <!-- Header -->
     <header class="bg-[#1a1614]/80 backdrop-blur-md border-b border-[#4a4036] sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-3">
@@ -127,15 +48,28 @@
                     </svg>
                 </div>
                 <div class="flex flex-col">
-                    <h1 class="text-3xl font-black text-[#fef3c7] leading-none tracking-tighter">BrewRat</h1>
-                    <span class="text-[9px] font-bold uppercase tracking-[0.2em] text-amber-500/80 mt-1">Specialty Scavenger Guide</span>
+                    <h1 class="text-2xl font-black text-[#fef3c7] leading-none tracking-tighter">BrewRat</h1>
+                    <span class="text-[8px] font-bold uppercase tracking-[0.2em] text-amber-500 mt-1">Specialty Scavenger Guide</span>
                 </div>
             </div>
             
-            <div class="flex flex-1 max-w-2xl w-full relative">
-                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-amber-500/50"></i>
-                <input type="text" id="searchInput" placeholder="Search the streets for beans or locations..." 
-                    class="w-full pl-11 pr-4 py-3 border border-[#4a4036] rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-500 bg-[#1a1614] text-amber-100 placeholder:text-amber-900 transition-all">
+            <div class="flex flex-1 max-w-xl w-full relative gap-2">
+                <div class="relative flex-1">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-amber-500/30"></i>
+                    <input type="text" id="searchInput" placeholder="Search the streets for beans..." 
+                        class="w-full pl-11 pr-4 py-2.5 border border-[#4a4036] rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 bg-[#1a1614] text-amber-100 placeholder:text-amber-900 transition-all text-sm">
+                </div>
+                <button onclick="requestLocation()" id="locateBtn" class="px-4 py-2.5 bg-amber-900/40 border border-amber-800/50 rounded-xl text-amber-500 hover:bg-amber-800/20 transition flex items-center gap-2 whitespace-nowrap text-xs font-black uppercase tracking-widest">
+                    <i class="fas fa-crosshairs"></i> <span class="hidden sm:inline">Scan Perimeter</span>
+                </button>
+            </div>
+
+            <div id="userProfile" class="flex items-center gap-3 bg-amber-950/20 px-4 py-2 rounded-xl border border-amber-900/30 hidden">
+                <div class="text-right">
+                    <p id="userName" class="text-[10px] font-black uppercase text-amber-100">Scout</p>
+                    <div id="userBadges" class="flex gap-1 mt-0.5"></div>
+                </div>
+                <div class="w-8 h-8 rounded-lg bg-amber-500 flex items-center justify-center text-[#1a1614] font-black text-xs shadow-lg shadow-amber-500/20" id="userRank">0</div>
             </div>
         </div>
     </header>
@@ -143,84 +77,81 @@
     <main class="max-w-7xl mx-auto px-4 py-8">
         <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-                <h2 class="text-4xl font-black text-[#fef3c7] tracking-tight mb-2">The Nest</h2>
-                <p class="text-amber-200/50 max-w-md leading-relaxed">A community-based directory of independent cafes scavenged by the horde, for the horde.</p>
+                <h2 class="text-3xl font-black text-[#fef3c7] tracking-tight mb-2">The Nest</h2>
+                <p class="text-amber-200/40 text-sm max-w-sm">Live community data from the Manila coffee underground.</p>
+                <div id="locationBadge" class="hidden mt-3 text-[10px] font-black uppercase text-amber-500/60 flex items-center gap-2">
+                    <i class="fas fa-map-marker-alt"></i> GPS Lock Active: Sorting by Proximity
+                </div>
             </div>
-            <div id="authStatus" class="text-[10px] font-black uppercase tracking-widest text-amber-500 bg-amber-950/40 px-5 py-3 rounded-2xl border border-amber-900/50 italic flex items-center">
-                Establishing Link...
-            </div>
+            <div id="authStatus" class="text-[10px] font-bold uppercase tracking-widest text-amber-500/50 italic">Linking...</div>
         </div>
 
-        <div id="cafeGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            <div class="col-span-full text-center py-20 animate-pulse">
-                <p class="text-amber-900/50 font-black uppercase text-xs tracking-widest">Searching the stash...</p>
-            </div>
-        </div>
-
-        <div id="noResults" class="hidden text-center py-20">
-            <i class="fas fa-skull text-6xl text-[#3d342d] mb-6"></i>
-            <p class="text-xl text-amber-900/50 font-bold uppercase tracking-widest">Nothing found in this sector.</p>
-        </div>
+        <div id="cafeGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+        <div id="noResults" class="hidden text-center py-20 text-amber-900/40 font-black uppercase tracking-widest text-xs">Sector clear. No intel found.</div>
     </main>
 
     <!-- Review Modal -->
-    <div id="reviewModal" class="fixed inset-0 bg-[#1a1614]/90 hidden items-center justify-center z-[100] p-4 modal-enter backdrop-blur-sm">
+    <div id="reviewModal" class="fixed inset-0 bg-[#1a1614]/95 hidden items-center justify-center z-[100] p-4 backdrop-blur-md">
         <div class="bg-[#2b2521] border border-[#4a4036] rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col shadow-2xl">
-            <div class="p-6 border-b border-[#4a4036] flex justify-between items-start">
-                <div>
-                    <h2 id="modalTitle" class="text-2xl font-black text-[#fef3c7]">Cafe Name</h2>
-                    <p id="modalLocation" class="text-amber-500/60 text-xs font-bold flex items-center gap-2 mt-1 uppercase tracking-widest">
-                        <i class="fas fa-location-arrow"></i> <span>Location</span>
-                    </p>
-                </div>
-                <button onclick="closeModal()" class="p-2 hover:bg-[#3d342d] rounded-full transition text-amber-200">
-                    <i class="fas fa-times text-xl"></i>
-                </button>
+            <div class="p-6 border-b border-[#4a4036] flex justify-between items-center bg-[#1a1614]/50">
+                <h2 id="modalTitle" class="text-2xl font-black text-[#fef3c7]">Cafe</h2>
+                <button onclick="closeModal()" class="text-amber-500 hover:text-amber-100 transition"><i class="fas fa-times text-xl"></i></button>
             </div>
             
-            <div class="overflow-y-auto custom-scrollbar flex-1">
-                <div class="map-container-hero bg-[#1a1614] grayscale hover:grayscale-0 transition-all duration-700">
-                    <iframe id="modalMap" frameborder="0" style="border:0" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
-
-                <div class="p-8">
-                    <div class="mb-10">
-                        <div class="flex items-center gap-3 mb-6">
-                            <i class="fas fa-clipboard-list text-amber-500"></i>
-                            <h3 class="font-black text-amber-100 uppercase tracking-widest text-sm">Community Intel</h3>
-                            <div class="h-[1px] flex-1 bg-[#4a4036]"></div>
+            <div class="overflow-y-auto custom-scrollbar p-6 space-y-8">
+                <section class="bg-[#3d342d] p-6 rounded-2xl border border-[#4a4036]">
+                    <h3 class="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-4 flex items-center gap-2">
+                        <i class="fas fa-signal"></i> Live Vibe Report
+                    </h3>
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="vibe-selector">
+                            <p class="text-[9px] font-bold text-amber-200/50 mb-2 uppercase">WiFi</p>
+                            <select id="vibeWifi" class="w-full bg-[#1a1614] border border-[#4a4036] rounded-lg p-2 text-xs text-amber-100">
+                                <option value="none">Unknown</option>
+                                <option value="good">High Speed</option>
+                                <option value="mid">Standard</option>
+                                <option value="bad">Dead Zone</option>
+                            </select>
                         </div>
-                        <div id="modalReviews" class="space-y-4"></div>
-                    </div>
-
-                    <div class="bg-[#3d342d] rounded-2xl p-6 border border-[#4a4036]">
-                        <div class="flex justify-between items-center mb-5">
-                            <div class="flex items-center gap-2">
-                                <i class="fas fa-pen-nib text-amber-500 text-xs"></i>
-                                <h3 class="font-black text-amber-200 uppercase tracking-widest text-xs">Transmit Intel</h3>
-                            </div>
-                            <div id="starInput" class="flex gap-1 text-amber-500 cursor-pointer">
-                                <i class="fas fa-star" data-val="1"></i>
-                                <i class="fas fa-star" data-val="2"></i>
-                                <i class="fas fa-star" data-val="3"></i>
-                                <i class="fas fa-star" data-val="4"></i>
-                                <i class="fas fa-star" data-val="5"></i>
-                            </div>
+                        <div class="vibe-selector">
+                            <p class="text-[9px] font-bold text-amber-200/50 mb-2 uppercase">Outlets</p>
+                            <select id="vibeOutlets" class="w-full bg-[#1a1614] border border-[#4a4036] rounded-lg p-2 text-xs text-amber-100">
+                                <option value="none">Unknown</option>
+                                <option value="good">Plenty</option>
+                                <option value="bad">None Found</option>
+                            </select>
                         </div>
-                        <textarea id="reviewText" placeholder="Record your findings..." 
-                            class="w-full p-4 border border-[#4a4036] rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 bg-[#1a1614] text-amber-100 h-28 text-sm placeholder:text-amber-900"></textarea>
-                        <button id="submitBtn" onclick="submitReview()" class="w-full mt-4 intel-badge text-white py-3 rounded-xl font-black uppercase tracking-widest text-xs hover:brightness-110 transition disabled:opacity-50">Transmit Intel</button>
+                        <div class="vibe-selector">
+                            <p class="text-[9px] font-bold text-amber-200/50 mb-2 uppercase">Crowd</p>
+                            <select id="vibeCrowd" class="w-full bg-[#1a1614] border border-[#4a4036] rounded-lg p-2 text-xs text-amber-100">
+                                <option value="good">Ghost Town</option>
+                                <option value="mid">Active</option>
+                                <option value="bad">Full House</option>
+                            </select>
+                        </div>
                     </div>
+                </section>
+
+                <div id="modalReviews" class="space-y-4"></div>
+
+                <div class="bg-[#3d342d] rounded-2xl p-6 border border-[#4a4036]">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-black text-amber-200 uppercase tracking-widest text-xs">Transmit Intel</h3>
+                        <div id="starInput" class="flex gap-1 text-amber-500 cursor-pointer">
+                            <i class="fas fa-star" data-val="1"></i><i class="fas fa-star" data-val="2"></i><i class="fas fa-star" data-val="3"></i><i class="fas fa-star" data-val="4"></i><i class="fas fa-star" data-val="5"></i>
+                        </div>
+                    </div>
+                    <textarea id="reviewText" placeholder="What's the intel?" class="w-full p-4 border border-[#4a4036] rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 bg-[#1a1614] text-amber-100 h-24 text-sm"></textarea>
+                    <button id="submitBtn" onclick="submitReview()" class="w-full mt-4 intel-badge text-white py-3 rounded-xl font-black uppercase tracking-widest text-xs hover:brightness-110 transition">Transmit Intel</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, doc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBJhEWSJ8Tz2DBwychFeQVlhXCYD1D8YLY",
@@ -236,145 +167,150 @@
         const db = getFirestore(app);
         const appId = 'brew-rat-guide'; 
 
-        let currentUser = null;
+        let user = null;
+        let userData = { scavengeCount: 0, badges: [] };
         let cafes = []; 
-        let allCloudReviews = [];
-        let unsubscribeCafes = null;
-        let unsubscribeReviews = null;
+        let reviews = [];
         let currentCafeId = null;
-        let selectedUserRating = 5;
-
-        const defaultImg = "https://images.unsplash.com/photo-1501339819398-ed4986bb5af0?q=80&w=800&auto=format&fit=crop";
-
-        const signInWithRetry = async (retries = 3, delay = 1000) => {
-            for (let i = 0; i < retries; i++) {
-                try {
-                    await signInAnonymously(auth);
-                    return;
-                } catch (error) {
-                    if (i === retries - 1) throw error;
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                    delay *= 2;
-                }
-            }
-        };
+        let selectedRating = 5;
+        let userLocation = null;
 
         const init = async () => {
-            setupSearch();
-            setupStars();
-
-            onAuthStateChanged(auth, (user) => {
-                currentUser = user;
-                const status = document.getElementById('authStatus');
-                if (user) {
-                    status.innerHTML = `<span class="relative flex h-2 w-2 mr-3"><span class="bg-green-500 rounded-full h-2 w-2"></span></span> Link Established`;
-                    startListeningForData(user);
-                } else {
-                    status.innerHTML = `Link Offline.`;
+            setupUI();
+            onAuthStateChanged(auth, (u) => {
+                user = u;
+                if (u) {
+                    document.getElementById('authStatus').innerText = "LINK ESTABLISHED";
+                    document.getElementById('userProfile').classList.remove('hidden');
+                    document.getElementById('userName').innerText = `Scout ${u.uid.substring(0,4)}`;
+                    syncUserData(u.uid);
+                    startSync();
                 }
             });
-
-            try { await signInWithRetry(); } catch (e) { console.error(e); }
+            await signInAnonymously(auth);
         };
 
-        const startListeningForData = (user) => {
+        const calculateDistance = (lat1, lon1, lat2, lon2) => {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        };
+
+        window.requestLocation = () => {
+            const btn = document.getElementById('locateBtn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Scanning...';
+            
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+                    document.getElementById('locationBadge').classList.remove('hidden');
+                    btn.innerHTML = '<i class="fas fa-check"></i> Scanned';
+                    renderCafes();
+                },
+                (err) => {
+                    btn.innerHTML = '<i class="fas fa-times"></i> Scan Failed';
+                    alertBox("GPS SIGNAL LOST.");
+                }
+            );
+        };
+
+        const syncUserData = (uid) => {
+            if (!user) return;
+            const userDoc = doc(db, 'artifacts', appId, 'users', uid, 'profile', 'data');
+            onSnapshot(userDoc, (snap) => {
+                if (snap.exists()) {
+                    userData = snap.data();
+                    document.getElementById('userRank').innerText = userData.scavengeCount || 0;
+                    renderBadges(userData.badges || []);
+                } else {
+                    setDoc(userDoc, { scavengeCount: 0, badges: [] });
+                }
+            }, (err) => console.log("Profile Sync Waiting..."));
+        };
+
+        const renderBadges = (badges) => {
+            const container = document.getElementById('userBadges');
+            container.innerHTML = badges.map(b => `<i class="fas fa-certificate text-[8px] text-amber-500" title="${b}"></i>`).join('');
+        };
+
+        const startSync = () => {
             if (!user) return;
             const cafesRef = collection(db, 'artifacts', appId, 'public', 'data', 'cafes');
             const reviewsRef = collection(db, 'artifacts', appId, 'public', 'data', 'reviews');
 
-            if (unsubscribeCafes) unsubscribeCafes();
-            unsubscribeCafes = onSnapshot(cafesRef, (snapshot) => {
-                cafes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            onSnapshot(cafesRef, snap => {
+                cafes = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                 renderCafes();
-            });
+            }, (err) => console.log("Cafe Sync Waiting..."));
 
-            if (unsubscribeReviews) unsubscribeReviews();
-            unsubscribeReviews = onSnapshot(reviewsRef, (snapshot) => {
-                allCloudReviews = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            onSnapshot(reviewsRef, snap => {
+                reviews = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                 renderCafes();
                 if (currentCafeId) updateModalReviews();
-            });
+            }, (err) => console.log("Review Sync Waiting..."));
         };
 
-        window.renderCafes = (filterText = '') => {
+        window.renderCafes = () => {
             const grid = document.getElementById('cafeGrid');
-            const noRes = document.getElementById('noResults');
+            const search = document.getElementById('searchInput').value.toLowerCase();
             
-            // Filter by search text AND ensure the cafe isn't marked as hidden in Firebase
-            const filtered = cafes.filter(c => {
-                const searchLower = filterText.toLowerCase();
-                const matchesSearch = c.name?.toLowerCase().includes(searchLower) || 
-                                     c.city?.toLowerCase().includes(searchLower);
-                const isNotHidden = c.isHidden !== true; // Logic to hide cafe
-                
-                return matchesSearch && isNotHidden;
+            const cafesWithDistance = cafes.map(c => {
+                let dist = null;
+                if (userLocation && c.lat && c.lng) {
+                    dist = calculateDistance(userLocation.lat, userLocation.lng, Number(c.lat), Number(c.lng));
+                }
+                return { ...c, distance: dist };
             });
+
+            let filtered = cafesWithDistance.filter(c => !c.isHidden && (c.name?.toLowerCase().includes(search) || c.city?.toLowerCase().includes(search)));
+
+            if (userLocation) {
+                filtered.sort((a, b) => {
+                    if (a.distance === null) return 1;
+                    if (b.distance === null) return -1;
+                    return a.distance - b.distance;
+                });
+            } else {
+                filtered.sort((a, b) => (b.isChiefFavorite ? 1 : 0) - (a.isChiefFavorite ? 1 : 0));
+            }
 
             grid.innerHTML = '';
-            
-            if (filtered.length === 0 && cafes.length > 0) {
-                noRes.classList.remove('hidden');
-            } else if (cafes.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-20"><p class="text-amber-900/50 font-black uppercase text-xs tracking-widest">Searching the stash...</p></div>`;
-            } else {
-                noRes.classList.add('hidden');
-                filtered.forEach(cafe => {
-                    const revs = allCloudReviews.filter(r => r.cafeId === cafe.id);
-                    const rating = revs.length ? (revs.reduce((a,b)=>a+b.rating,0)/revs.length).toFixed(1) : (Number(cafe.baseRating)||5.0).toFixed(1);
-                    const imageSrc = cafe.image || defaultImg;
+            filtered.forEach(cafe => {
+                const cafeReviews = reviews.filter(r => r.cafeId === cafe.id);
+                const base = Number(cafe.baseRating || 5.0);
+                const rating = cafeReviews.length ? (cafeReviews.reduce((a,b)=>a+b.rating,0)/cafeReviews.length).toFixed(1) : base.toFixed(1);
+                const vibes = cafe.lastVibe || { wifi: 'none', outlets: 'none', crowd: 'mid' };
+                const distStr = cafe.distance !== null ? `${cafe.distance.toFixed(1)} km away` : null;
 
-                    const card = document.createElement('div');
-                    card.className = 'cafe-card rounded-3xl overflow-hidden border border-[#4a4036] cursor-pointer flex flex-col group relative';
-                    card.onclick = () => window.openModal(cafe.id);
-                    
-                    const kingBadge = cafe.isChiefFavorite ? `
-                        <div class="absolute top-4 right-4 z-30 king-pick-badge px-3 py-1.5 rounded-xl flex items-center gap-1.5 animate-bounce">
-                            <i class="fas fa-crown text-[10px]"></i>
-                            <span class="text-[9px] font-black uppercase tracking-tighter">Rat King's Pick</span>
+                const card = document.createElement('div');
+                card.className = 'cafe-card rounded-2xl overflow-hidden border border-[#4a4036] cursor-pointer group flex flex-col';
+                card.onclick = () => openModal(cafe.id);
+                card.innerHTML = `
+                    <div class="relative h-40 bg-[#1a1614] overflow-hidden">
+                        <img src="${cafe.image || 'https://images.unsplash.com/photo-1501339819398-ed4986bb5af0?q=80&w=600'}" class="w-full h-full object-cover group-hover:scale-110 transition-transform opacity-70">
+                        <div class="absolute top-3 left-3 flex flex-wrap gap-1">
+                            ${vibes.wifi === 'good' ? '<span class="vibe-tag vibe-good">Wired</span>' : ''}
+                            ${vibes.crowd === 'good' ? '<span class="vibe-tag vibe-good">Ghost Town</span>' : ''}
+                            ${distStr ? `<span class="vibe-tag bg-amber-500/10 text-amber-500 border border-amber-500/20">${distStr}</span>` : ''}
                         </div>
-                    ` : '';
-
-                    card.innerHTML = `
-                        <div class="img-container">
-                            ${kingBadge}
-                            <img src="${imageSrc}" 
-                                 onerror="this.src='${defaultImg}'; this.onerror=null;"
-                                 alt="${cafe.name}" 
-                                 class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity">
-                            <div class="absolute top-4 left-4 z-20 bg-amber-900/90 text-[#fef3c7] px-3 py-1 rounded-full text-[9px] font-black border border-amber-800/50 uppercase tracking-widest">${cafe.city || 'Metro'}</div>
+                        ${cafe.isChiefFavorite ? '<div class="absolute top-3 right-3 king-pick-badge p-1.5 rounded-lg"><i class="fas fa-crown text-[10px]"></i></div>' : ''}
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-black text-amber-50 text-lg group-hover:text-amber-500 transition-colors tracking-tight">${cafe.name}</h3>
+                            <span class="text-amber-500 font-bold text-xs"><i class="fas fa-star mr-1"></i>${rating}</span>
                         </div>
-                        <div class="p-6 flex flex-1 flex-col">
-                            <div class="flex justify-between mb-2">
-                                <h3 class="font-black text-xl text-[#fef3c7] group-hover:text-amber-500 transition-colors">${cafe.name || 'Hole in the Wall'}</h3>
-                                <div class="text-amber-500 font-black text-sm flex items-center gap-1"><i class="fas fa-star"></i> ${rating}</div>
-                            </div>
-                            <p class="text-amber-200/40 text-[10px] uppercase font-bold mb-4 line-clamp-1"><i class="fas fa-map-marker-alt mr-2 text-amber-800"></i> ${cafe.address || 'Secret Location'}</p>
-                            <div class="mt-auto flex justify-between items-center border-t border-[#4a4036] pt-4">
-                                <span class="text-[9px] bg-[#2b2521] text-amber-400 px-3 py-1 rounded-lg border border-[#4a4036] uppercase font-black">${cafe.specialty || 'Unique Brew'}</span>
-                                <span class="intel-badge text-white text-[10px] uppercase font-black px-3 py-1 rounded-full flex items-center gap-2">
-                                    <i class="fas fa-clipboard-list text-[10px]"></i> Intel
-                                </span>
-                            </div>
-                        </div>
-                    `;
-                    grid.appendChild(card);
-                });
-            }
-        };
-
-        const setupSearch = () => {
-            document.getElementById('searchInput').addEventListener('input', (e) => {
-                window.renderCafes(e.target.value);
+                        <p class="text-[10px] uppercase font-bold text-amber-200/30 tracking-widest">${cafe.city || 'Metro Area'}</p>
+                    </div>
+                `;
+                grid.appendChild(card);
             });
-        };
-
-        const setupStars = () => {
-            document.querySelectorAll('#starInput i').forEach(s => s.onclick = () => window.updateStarUI(parseInt(s.getAttribute('data-val'))));
-        };
-
-        window.updateStarUI = (v) => {
-            document.querySelectorAll('#starInput i').forEach((s, i) => s.className = i < v ? 'fas fa-star' : 'far fa-star');
-            selectedUserRating = v;
+            document.getElementById('noResults').classList.toggle('hidden', filtered.length > 0);
         };
 
         window.openModal = (id) => {
@@ -382,77 +318,84 @@
             const cafe = cafes.find(c => c.id === id);
             if (!cafe) return;
             document.getElementById('modalTitle').innerText = cafe.name;
-            document.getElementById('modalLocation').querySelector('span').innerText = cafe.address;
-            
-            const searchQuery = `${cafe.name}, ${cafe.address || ''}`.trim();
-            document.getElementById('modalMap').src = `https://maps.google.com/maps?q=${encodeURIComponent(searchQuery)}&output=embed`;
-            
-            updateModalReviews();
             document.getElementById('reviewModal').classList.remove('hidden');
             document.getElementById('reviewModal').classList.add('flex');
-            document.body.style.overflow = 'hidden';
-            window.updateStarUI(5);
+            updateModalReviews();
         };
 
-        const updateModalReviews = () => {
-            const container = document.getElementById('modalReviews');
-            container.innerHTML = '';
-            const filtered = allCloudReviews.filter(r => r.cafeId === currentCafeId).sort((a,b) => (b.timestamp?.seconds||0)-(a.timestamp?.seconds||0));
-            if (!filtered.length) { 
-                container.innerHTML = `<p class="text-[10px] text-amber-800 font-black uppercase text-center py-4 tracking-widest">No community intel yet.</p>`; 
-                return; 
+        window.submitReview = async () => {
+            if (!user) return;
+            const text = document.getElementById('reviewText').value.trim();
+            if (!text) return;
+
+            const vibes = {
+                wifi: document.getElementById('vibeWifi').value,
+                outlets: document.getElementById('vibeOutlets').value,
+                crowd: document.getElementById('vibeCrowd').value
+            };
+
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true; btn.innerText = "TRANSMITTING...";
+
+            try {
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'reviews'), {
+                    cafeId: currentCafeId,
+                    rating: selectedRating,
+                    text,
+                    user: user.uid,
+                    timestamp: serverTimestamp()
+                });
+                await updateDoc(doc(db, 'artifacts', appId, 'public', 'data', 'cafes', currentCafeId), { lastVibe: vibes });
+                
+                const userDoc = doc(db, 'artifacts', appId, 'users', user.uid, 'profile', 'data');
+                const newCount = (userData.scavengeCount || 0) + 1;
+                let badges = [...(userData.badges || [])];
+                if (newCount === 1) badges.push("First Intel");
+                await updateDoc(userDoc, { scavengeCount: newCount, badges: badges });
+
+                closeModal();
+                alertBox("INTEL TRANSMITTED.");
+            } catch (e) { console.error(e); } finally {
+                btn.disabled = false; btn.innerText = "Transmit Intel";
             }
-            filtered.forEach(r => {
-                const div = document.createElement('div');
-                div.className = 'bg-[#1a1614] p-5 rounded-2xl border border-[#4a4036]';
-                div.innerHTML = `
-                    <div class="flex justify-between mb-2">
-                        <span class="text-amber-500 font-black text-[9px] uppercase tracking-widest">SCAVENGER ${r.user?.substring(0,4)}</span>
-                        <div class="text-[9px] text-amber-600">${Array(5).fill(0).map((_,i)=>`<i class="${i<r.rating?'fas':'far'} fa-star"></i>`).join('')}</div>
-                    </div>
-                    <p class="text-amber-100/80 text-sm italic">"${r.text}"</p>`;
-                container.appendChild(div);
-            });
+        };
+
+        const alertBox = (m) => {
+            const b = document.createElement('div');
+            b.className = 'fixed bottom-10 left-1/2 -translate-x-1/2 bg-amber-500 text-[#1a1614] font-black uppercase text-[10px] px-8 py-4 rounded-full z-[200] border-2 border-[#1a1614]';
+            b.innerText = m;
+            document.body.appendChild(b);
+            setTimeout(() => b.remove(), 4000);
         };
 
         window.closeModal = () => {
             document.getElementById('reviewModal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-            document.getElementById('modalMap').src = 'about:blank'; 
+            document.getElementById('reviewText').value = '';
             currentCafeId = null;
         };
 
-        window.submitReview = async () => {
-            if (!currentUser) return;
-            const text = document.getElementById('reviewText').value.trim();
-            if (!text) return;
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true; btn.innerText = "TRANSMITTING...";
-            try {
-                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'reviews'), { 
-                    cafeId: currentCafeId, 
-                    rating: selectedUserRating, 
-                    text, 
-                    user: currentUser.uid, 
-                    timestamp: serverTimestamp() 
+        const setupUI = () => {
+            document.getElementById('searchInput').oninput = () => renderCafes();
+            document.querySelectorAll('#starInput i').forEach(s => s.onclick = () => {
+                selectedRating = parseInt(s.dataset.val);
+                document.querySelectorAll('#starInput i').forEach((star, i) => {
+                    star.className = i < selectedRating ? 'fas fa-star' : 'far fa-star';
                 });
-                window.alertBox("INTEL TRANSMITTED SUCCESSFULLY.");
-                document.getElementById('reviewText').value = '';
-            } catch (e) { 
-                console.error(e); 
-                window.alertBox("TRANSMISSION FAILED. CHECK SYSTEM RULES."); 
-            } finally { 
-                btn.disabled = false; 
-                btn.innerText = "Transmit Intel"; 
-            }
+            });
         };
 
-        window.alertBox = (msg) => {
-            const box = document.createElement('div');
-            box.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 intel-badge text-white px-8 py-4 rounded-2xl shadow-2xl z-[200] font-black text-[10px] uppercase tracking-widest border-2 border-amber-500 text-center max-w-[90%]';
-            box.innerText = msg;
-            document.body.appendChild(box);
-            setTimeout(() => box.remove(), 8000); 
+        const updateModalReviews = () => {
+            const container = document.getElementById('modalReviews');
+            const cafeReviews = reviews.filter(r => r.cafeId === currentCafeId).sort((a,b) => (b.timestamp?.seconds||0) - (a.timestamp?.seconds||0));
+            container.innerHTML = cafeReviews.map(r => `
+                <div class="bg-[#1a1614] p-4 rounded-xl border border-[#4a4036]">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[9px] font-black text-amber-500 uppercase tracking-tighter">Scout ${r.user?.substring(0,4)}</span>
+                        <div class="text-amber-600 text-[8px]">${'<i class="fas fa-star"></i>'.repeat(r.rating)}</div>
+                    </div>
+                    <p class="text-sm text-amber-100/70 italic">"${r.text}"</p>
+                </div>
+            `).join('');
         };
 
         init();
