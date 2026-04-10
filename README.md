@@ -1,3 +1,5 @@
+https://auricosmo.github.io/BrewRat/
+
 🐀 BrewRat: The Scavenger's Guide to Manila Coffee
 
 Welcome to BrewRat, your ultimate tactical map for finding the best independent, specialty, and "hole-in-the-wall" coffee spots in Metro Manila. We skip the corporate fluff and hunt for the real roasts.
